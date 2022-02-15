@@ -1,0 +1,165 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <p:panel id="table" header="Excercise"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <p:tabView orientation="left" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+                <p:tab title="Option Basics">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            These exercises are designed for users who are not familiar with options, by practicing
+                            with these exercises, student users will get to know the basic features of options.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Option Problems">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            The more advanced exercises in this course will help student users get a deeper idea
+                            about option lethbridge.operation and strategies.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Problem 1">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            The more advanced exercises in this course will help student users get a deeper
+                            idea about option lethbridge.operation and strategies.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+
+                <p:tab title="Problem 2">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            <br/><br/>
+                            HSBC is studying a foreign bid in three months time for PepsiCo, who has built up a
+                            portfolio of 10,000 shares in Wahaha, a Chinese nutritional food company.PepsiCo is
+                            confident about the future outlook for Wahaha, but also is worried that the price of
+                            Wahaha shares will be falling before the bid is launched, and therefore, PepsiCo wishes
+                            to avoid the significant loss if this should happen. Intuitively PepsiCo would like to
+                            benefit from the price rise of Wahaha. The cost of providing protection against adverse
+                            movements in Wahaha prices should be minimized, but with an adequate downside protection.
+                            PepsiCo is expecting the stock price of Wahaha will deviate by no more than Â±20% within
+                            the next three months.
+                            <br/><br/>
+                            To provide a best strategy, HSBC would consider the following alternatives:<br/>
+                            1.Do nothing.<br/>
+                            2.Buy at-the-money puts.<br/>
+                            3.Buy at-the-money puts.<br/>
+                            4.Buy out-of-the-money puts.<br/>
+                            5.Buy in-the-money puts, and sell out-of-the-money puts.<br/>
+                            6.Buy out-of-the-money puts, and sell out-of-the money calls.<br/>
+                            7.Any other strategies that you can devise.<br/>
+                            <br/><br/>
+                            REQUIRED:<br/>
+                            Use OSA to examine all possible alternatives. Consider carefully the advantages
+                            and disadvantages of each one, looking at:<br/><br/>
+                            net option premiums paid<br/>
+                            level of losses that can be sustained<br/>
+                            opportunities to profit should Wahaha shares rise<br/>
+                            <br/><br/>
+                            Finally, taking into account PepsiCoâ€™s objective, select the strategy that HSBC
+                            would recommend to Pepsi.
+                            <br/><br/>
+                            *Calculation based on the following parameters:
+                            <br/><br/>
+                            S= 23.45, t= 90, r=5%, s= 20%
+                            <br/><br/>
+                            XATM= 23.45, XITM put= 25, XOTM put= 22
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Problem 3">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            Once a trader determines to enter the options market, they must decide which strategy to
+                            take to ensure his/her success in the current market. Recall that the option payoff profiles
+                            from buying and selling call and put options, and from long and short positions in an
+                            underlying asset, look like this: (with these, a wide variety of strategies can be built)
+                            <br/><br/>
+                            <img src="${pageContext.request.contextPath}/resources/images/pages/ex1.png"
+                                 width="800" height="600"/>
+                            <br/><br/>
+                            <strong>REQUIRED</strong><br/>
+                            2.In the above strategies, distinguish Bullish strategies and Bearish strategies,
+                            explain why. Can you list other bullish and bearish
+                            strategies other than the ones mentioned?<br/>
+                            3.A fund manager holds 10,000 shares in ABC Company, but wishes to achieve a portfolio
+                            whose payoff profile looks like the sketch below, using just call options in multiples
+                            of 10,000 shares. Write out the list of options that the fund manager should buy
+                            or sell.<br/>
+                            <br/><br/>
+                            <img src="${pageContext.request.contextPath}/resources/images/pages/ex2.png"/>
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Problem 4">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            We are now on the May 10th, 2012; there are two call options for Oracle in the market:
+                            <br/><br/>
+                            <strong> Aug 29.5 Nov 29.5</strong>
+                            <br/><br/>
+                            Expiration Date August 15th, 2012 November 2nd, 2012
+                            The prevailing risk free rate is the 6-month U.S. Treasuries 0.14%, market volatility
+                            of Oracle is 20% and the underlying price is $27.78 at the moment.
+                            <br/><br/>
+                            <strong>REQUIRED</strong>
+                            <br/><br/>
+                            1. Calculate the Delta, Gamma and Vega of both options with OSA calculator. Are they all neutral.<br/>
+                            2. If the answer to question 1 is no, think about the situation when you are holding 20
+                            of either option, how can you establish positions to prevent the movements of
+                            option price over a wider range of small movements in underlying, after establishing
+                            the positions, use OSA calculator to verify your result.<br/>
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+
+                <p:tab title="Problem 5">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            Given the following tree of stock price
+                            <br/><br/>
+                            <img src="${pageContext.request.contextPath}/resources/images/pages/sp.png"/>
+                            <br/><br/>
+                            In addition, the risk-free interest rate is 3% constantly at each period.
+                            <br/><br/>
+                            <strong>REQUIRED</strong>
+                            <br/><br/>
+                            1.Find the risk-neutral probabilities of the stock movements from each node on the tree.
+                            Are these probabilities the same? If not, explain whether the tree is a valid one.<br/>
+                            2.Price an American call and an American put with Binomial Tree method. Both options
+                            are assumed to be at strike price $45. Assume the each period stands for one year time.<br/>
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+            </p:tabView>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,404 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core">
+
+    <ui:define name="content">
+
+        <div style="height: 1000px;">
+
+            <p:layout fullPage="false" style="min-width:400px; min-height:400px; height: 100%;">
+
+                <!-- East layout  ===================================== -->
+
+                <p:layoutUnit id="headerOne" position="east" size="500" header="Graph and News" resizable="true"
+                              collapsible="true" effect="drop">
+
+                    <p:panelGrid id="graphAndData" columns="1">
+
+
+                        <p:selectOneMenu id="cmbGraphSelection" value="#{myAccountCtrl.graphName}">
+                            <f:selectItem itemLabel="Select a Graph" itemValue=""/>
+                            <f:selectItems value="#{tradingCtrl.models}" var="graph"
+                                           itemLabel="#{graph.title}"
+                                           itemValue="#{graph.title}"/>
+                            <p:ajax event="change" update="stdDg, stdTblNews, tblPositions,
+                                           tblOrders, trad" process="@this"
+                                    listener="#{myAccountCtrl.selectGraph}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputPanel id="stdDg" autoUpdate="false" layout="grid" style="padding: 5px;">
+                            <c:forEach begin="1" end="#{tradingCtrl.numChart}" step="1" var="chr">
+                                <p:outputPanel id="dynamicPanel_${chr}">
+                                    <c:if test="#{tradingCtrl.models.get(chr - 1).title.equals(myAccountCtrl.graphName)}">
+                                        <p:chart id="dynamicChart_${chr}" type="line"
+                                                 model="#{tradingCtrl.models.get(chr - 1)}"
+                                                 style="width:100%;height:300px; float: right;
+                                                 background-color: #ececec;"/>
+                                    </c:if>
+                                </p:outputPanel>
+
+                            </c:forEach>
+                        </p:outputPanel>
+
+                        <!--@elvariable id="curNews" type="lethbridge.model.entities.CurNews"-->
+                        <p:dataTable id="stdTblNews"
+                                     var="curNews"
+                                     scrollable="true"
+                                     scrollHeight="250"
+                                     value="#{myAccountCtrl.filteredNews}"
+                                     selectionMode="single"
+                                     selection="#{tradingCtrl.curNews}"
+                                     rowKey="#{curNews.tick}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink}
+                                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                                     paginator="true" rows="10" style="margin-bottom:20px;">
+
+                            <p:ajax event="rowSelect" listener="#{tradingCtrl.onRowSelect}"
+                                    update="toolbarForm:textArea"/>
+                            <p:ajax event="rowUnselect" listener="#{tradingCtrl.onRowUnselected}"
+                                    update="stdTblNews, toolbarForm:textArea"/>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tick"/>
+                                </f:facet>
+                                <h:outputText value="#{curNews.tick}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Ticker"/>
+                                </f:facet>
+                                <h:outputText value="#{curNews.ticker}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Head Line"/>
+                                </f:facet>
+                                <h:outputText value="#{curNews.headLine}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panelGrid>
+                </p:layoutUnit>
+
+                <!-- East layout  ===================================== -->
+
+                <!-- center layout  ===================================== -->
+
+                <p:layoutUnit id="HeaderTwo" header="Information" position="center">
+
+                    <p:messages id="messages" showDetail="true" autoUpdate="false" closable="true"/>
+
+                    <h:panelGrid id="trad" columns="2" style="background: #4DA0B0;
+                                                              background: -webkit-linear-gradient(to left, #D39D38, #4DA0B0 );
+                                                              background: linear-gradient(to left, #D39D38, #4DA0B0 );
+                                                              width: 100%; color: white; font-size: 1.1em;">
+
+                        <p:outputPanel id="stock">
+                            <h:panelGrid id="tradcn" columns="9">
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblCompanyName" for="txtCompanyName" value="Company Name:"
+                                               style="font-weight: bold;"/>
+                                <p:outputLabel id="txtCompanyName" value="#{myAccountCtrl.graphName}"/>
+
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblinicash" for="txtinicash" value="Initial Cash:"
+                                               style="font-weight: bold;"/>
+                                <p:outputLabel id="txtinicash" value="#{myAccountCtrl.studentInitialCash}"/>
+
+                                <p:spacer width="30"/>
+                                <p:column/>
+                                <p:column/>
+
+                                <p:spacer width="30"/>
+                                <p:column/>
+                                <p:column/>
+
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lbliniInvestment" for="txtiniInvestment" value="Initial Investment:"
+                                               style="font-weight: bold;"/>
+                                <p:outputLabel id="txtiniInvestment" value="#{myAccountCtrl.initialInvestment}"/>
+
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblcurInvestment" for="txtcurInvestment" value="Current Investment:"
+                                               style="font-weight: bold;"/>
+                                <p:outputLabel id="txtcurInvestment" value="#{myAccountCtrl.currentInvestment}"/>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid id="tradSub" columns="10">
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblLast" for="lblValueLast" value="Last:"
+                                               style="font-weight: bold;"/>
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblValueLast" value="#{myAccountCtrl.lastPrice}"
+                                               style="color: #ffdcf4;"/>
+                                <p:spacer width="40"/>
+                                <p:outputLabel id="lblUnit" for="lblValueUnit" value="Number of Units:"
+                                               style="font-weight: bold;"/>
+                                <p:spacer width="5"/>
+                                <p:inputText id="lblValueUnit" value="#{myAccountCtrl.numberOfUnit}"
+                                               style="width: 95px;"/>
+                                <p:spacer width="30"/>
+                                <p:commandButton id="btnSubmit"
+                                                 value="Submit Order"
+                                                 disabled="#{myAccountCtrl.timerTick}"
+                                                 process="@this, tradSub"
+                                                 update="@this, tradSub, messages"
+                                                 actionListener="#{myAccountCtrl.submitOrder}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid id="tradType" columns="8">
+                                <p:spacer width="30"/>
+                                <p:outputLabel id="lblChange" value="Change:"
+                                               style="font-weight: bold;"/>
+                                <p:spacer width="30"/>
+
+                                <c:if test="#{myAccountCtrl.margin.equals('high')}">
+                                    <p:outputLabel id="lblValueChangeH" value="#{myAccountCtrl.change}"
+                                                   styleClass="green_color_font"/>
+                                </c:if>
+                                <c:if test="#{myAccountCtrl.margin.equals('equal')}">
+                                    <p:outputLabel id="lblValueChangeE" value="#{myAccountCtrl.change}"
+                                                   styleClass="white_color_font"/>
+                                </c:if>
+                                <c:if test="#{myAccountCtrl.margin.equals('low')}">
+                                    <p:outputLabel id="lblValueChangeL" value="#{myAccountCtrl.change}"
+                                                   styleClass="red_color_font"/>
+                                </c:if>
+
+                                <p:spacer width="40"/>
+
+                                <c:if test="#{myAccountCtrl.margin.equals('high')}">
+                                    <p:outputLabel id="lblValuePercentH" value="#{myAccountCtrl.percent}%"
+                                                   styleClass="green_color_font"/>
+                                </c:if>
+                                <c:if test="#{myAccountCtrl.margin.equals('equal')}">
+                                    <p:outputLabel id="lblValuePercentE" value="#{myAccountCtrl.percent}%"
+                                                   styleClass="white_color_font"/>
+                                </c:if>
+                                <c:if test="#{myAccountCtrl.margin.equals('low')}">
+                                    <p:outputLabel id="lblValuePercentL" value="#{myAccountCtrl.percent}%"
+                                                   styleClass="red_color_font"/>
+                                </c:if>
+
+                                <p:spacer width="30"/>
+                                <p:selectOneRadio id="console" value="#{myAccountCtrl.tradingType}" columns="4">
+                                    <f:selectItem itemLabel="Buy:" itemValue="buy"/>
+                                    <f:selectItem itemLabel="Sell:" itemValue="sell"/>
+                                </p:selectOneRadio>
+                            </h:panelGrid>
+                        </p:outputPanel>
+
+                        <h:panelGrid id="accountValue" columns="2"
+                                     style=" width: 100%; color: white; font-size: 1.1em;">
+
+                            <p:outputLabel id="lblaccVal" value="Account Value:"/>
+                            <p:outputLabel id="valAccValg" value="#{myAccountCtrl.accountValue}"
+                                           styleClass="#{myAccountCtrl.checkAccountValueColor}"/>
+
+                            <p:outputLabel id="lblPFVal" value="Portfolio Value:"/>
+                            <p:outputLabel id="valPFV" value="#{myAccountCtrl.portfolioValue}"
+                                           styleClass="#{myAccountCtrl.checkPortfolioValueColor}"/>
+
+                            <p:outputLabel id="lblDPL" value="Daily P/L:"/>
+                            <p:outputLabel id="vl1DPL" value="#{myAccountCtrl.dailyPL}"
+                                           styleClass="#{myAccountCtrl.checkDailyPLColor}"/>
+
+                            <p:outputLabel id="lblMTD" value="P/L to Date:"/>
+                            <p:outputLabel id="vl1MTD" value="#{myAccountCtrl.plToDate}"
+                                           styleClass="#{myAccountCtrl.checkPlToDateColor}"/>
+
+                            <p:outputLabel id="lblYTD" value="Cash Balance:"/>
+                            <p:outputLabel id="vl1YTD" value="#{myAccountCtrl.cashBalance}"
+                                           styleClass="#{myAccountCtrl.checkCashBalanceColor}"/>
+
+                            <p:outputLabel id="lbltimeout" value="Next Update:"/>
+                            <p:outputLabel id="timeout" value="#{myAccountCtrl.nextTimeout}" />
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="positionsPG" columns="1" style="background: #c2e59c;
+                                    background: -webkit-linear-gradient(to left, #c2e59c , #64b3f4);
+                                    background: linear-gradient(to left, #c2e59c , #64b3f4);
+                                                                 width: 100%;">
+                        <!--@elvariable id="positionsVar" type="lethbridge.model.entities.AnalyzeEntity"-->
+                        <p:dataTable id="tblPositions"
+                                     var="positionsVar"
+                                     value="#{myAccountCtrl.analyzeEntities}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="10" style="margin-bottom:20px;">
+
+                            <p:ajax event="rowSelect" listener="#{tradingCtrl.onRowSelect}"
+                                    update="toolbarForm:textArea"/>
+                            <p:ajax event="rowUnselect" listener="#{tradingCtrl.onRowUnselected}"
+                                    update="tblPositions, toolbarForm:textArea"/>
+
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/excel.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="xls" target="tblPositions" fileName="analyze"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/pdf.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="pdf" target="tblPositions" fileName="analyze"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/csv.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="csv" target="tblPositions" fileName="analyze"/>
+                                </h:commandLink>
+
+                            </f:facet>
+
+                            <p:column headerText="Descripton">
+                                <h:outputText value="#{positionsVar.description}"/>
+                            </p:column>
+
+                            <p:column headerText="Quantity">
+                                <h:outputText value="#{positionsVar.quantity}"/>
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{positionsVar.price}"/>
+                            </p:column>
+
+                            <p:column headerText="Mkt Value">
+                                <h:outputText value="#{positionsVar.marketValue}"/>
+                            </p:column>
+
+                            <p:column headerText="Cost">
+                                <h:outputText value="#{positionsVar.cost}"/>
+                            </p:column>
+
+                            <p:column headerText="Gain/Loss">
+                                <h:outputText value="#{positionsVar.gainOrLoss}"
+                                              styleClass="#{positionsVar.gainOrLoseColor}"/>
+                                <p:graphicImage value="#{request.contextPath} /resources/images/dot/space.png"/>
+                                <p:graphicImage value="#{request.contextPath} #{positionsVar.checkGainOrLoss}"/>
+                            </p:column>
+
+                            <p:column headerText="Pos Dly Chg">
+                                <h:outputText value="#{positionsVar.positionDailyChange}"
+                                              styleClass="#{positionsVar.positionDailyChangeColor}"/>
+                                <p:graphicImage value="#{request.contextPath} /resources/images/dot/space.png"/>
+                                <p:graphicImage
+                                        value="#{request.contextPath} #{positionsVar.checkPositionDailyChange}"/>
+                            </p:column>
+
+                            <p:column headerText="Pos Val Chg">
+                                <h:outputText value="#{positionsVar.positionValueChange}"
+                                              styleClass="#{positionsVar.positionValueChangeColor}"/>
+                                <p:graphicImage value="#{request.contextPath} /resources/images/dot/space.png"/>
+                                <p:graphicImage
+                                        value="#{request.contextPath} #{positionsVar.checkPositionValueChange}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="ordersPG" columns="1" style="background: #c2e59c;
+                                    background: -webkit-linear-gradient(to left, #c2e59c , #64b3f4);
+                                    background: linear-gradient(to left, #c2e59c , #64b3f4);
+                                                                 width: 100%;">
+                        <!--@elvariable id="ordersVar" type="lethbridge.model.entities.TradingEntity"-->
+                        <p:dataTable id="tblOrders"
+                                     var="ordersVar"
+                                     value="#{myAccountCtrl.tradingItems}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="10" style="margin-bottom:20px;">
+
+                            <p:ajax event="rowSelect" listener="#{tradingCtrl.onRowSelect}"
+                                    update="toolbarForm:textArea"/>
+                            <p:ajax event="rowUnselect" listener="#{tradingCtrl.onRowUnselected}"
+                                    update="tblOrders, toolbarForm:textArea"/>
+
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/excel.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="xls" target="tblOrders" fileName="orders"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/pdf.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="pdf" target="tblOrders" fileName="orders"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage value="#{request.contextPath}/resources/images/exporter/csv.png"
+                                                    width="24"/>
+                                    <p:dataExporter type="csv" target="tblOrders" fileName="orders"/>
+                                </h:commandLink>
+
+                            </f:facet>
+
+                            <p:column headerText="Descripton">
+                                <h:outputText value="#{ordersVar.companyName}"/>
+                            </p:column>
+
+                            <p:column headerText="Last Update">
+                                <h:outputText value="#{ordersVar.lastUpdate}"/>
+                            </p:column>
+
+                            <p:column headerText="Transaction">
+                                <h:outputText value="#{ordersVar.tradingType}"/>
+                            </p:column>
+
+                            <p:column headerText="Quantity">
+                                <h:outputText value="#{ordersVar.numberOfUnit}"/>
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{ordersVar.lastPrice}"/>
+                            </p:column>
+
+                            <p:column headerText="Status">
+                                <p:graphicImage value="#{request.contextPath} #{ordersVar.checkStatus}"/>
+                                <p:graphicImage value="#{request.contextPath} /resources/images/dot/space.png"/>
+                                <h:outputText value="#{ordersVar.status.toUpperCase()}"
+                                              styleClass="#{ordersVar.statusColor}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                </p:layoutUnit>
+
+                <!-- center layout  ===================================== -->
+
+            </p:layout>
+
+            <p:dialog id="nDialog" closable="true" draggable="true"
+                      closeOnEscape="true" header="News" responsive="true"
+                      widgetVar="newsDialog" width="30%" height="30%">
+
+                <p:inputTextarea id="textArea" rows="10" cols="50" value="#{tradingCtrl.areaText}"
+                                 queryDelay="750" minQueryLength="4" readonly="true"
+                                 style="width: 100%; height: 100%;">
+                </p:inputTextarea>
+
+            </p:dialog>
+
+            <p:poll id="stdShowPoint" interval="1" autoStart="true"
+                    update="stdDg, stdTblNews, tblPositions, tblOrders, trad "
+                    listener="#{myAccountCtrl.updateInfo}" widgetVar="stdShowPointTime"/>
+
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,93 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="mainPanel" columns="4">
+                <p:spacer width="70" height="10"/>
+                <h:panelGrid id="parameters" columns="2">
+
+                    <p:outputLabel id="sit" value="Situation:" style="color: #0f0f0f;"/>
+                    <p:selectOneRadio id="sitRadio" value="0" style="color: #0f0f0f;">
+                        <f:selectItem itemLabel="Call" itemValue="0" />
+                        <f:selectItem itemLabel="Put" itemValue="1" />
+                    </p:selectOneRadio>
+
+                    <p:outputLabel id="ur" value="UNDERLYING PRICE ($)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="uprice"
+                            mask=""
+                            value="0"
+                            required="true"
+                            requiredMessage="There is no value for UNDERLYING PRICE "
+                            disabled="false"/>
+
+                    <p:outputLabel id="tte" value="TIME TO EXPIRATION (days)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="exparation"
+                            mask=""
+                            value="0"
+                            required="true"
+                            requiredMessage="There is no value for TIME TO EXPIRATION "
+                            disabled="false"/>
+
+                    <p:outputLabel id="rfr" value="RISK FREE RATE (% year)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="rate"
+                            mask=""
+                            value="0"
+                            required="true"
+                            requiredMessage="There is no value for RISK FREE RATE "
+                            disabled="false"/>
+
+                    <p:outputLabel id="vol" value="VOLATILITY (% year)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="volatility"
+                            mask=""
+                            value="0"
+                            required="true"
+                            requiredMessage="There is no value for VOLATILITY "
+                            disabled="false"/>
+
+                    <p:outputLabel id="calc" value="Calculate" style="color: #0f0f0f;"/>
+                    <p:commandButton
+                            id="btnParam"
+                            mask=""
+                            value="Calculate"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                </h:panelGrid>
+
+                <p:column>
+                    <p:spacer width="200" height="10"/>
+                </p:column>
+
+                <h:panelGrid id="output" columns="2">
+                    <p:column/>
+                    <p:outputLabel id="des" value="OutPut" style="color: #0f0f0f;"/>
+
+
+                    <p:outputLabel id="iv" value="IMPLIED VOLATILITY (% year)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="impliedvolatility"
+                            readonly="true"
+                            mask=""
+                            value="0"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                </h:panelGrid>
+            </h:panelGrid>
+            <br/>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>#{tabPageName.pageName}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <h:outputStylesheet library="css" name="osa.css"/>
+    <h:outputStylesheet library="css" name="w3.css"/>
+    <h:outputStylesheet library="css" name="font-awesome.css"/>
+    <link rel="icon" type="image/ico" href="${pageContext.request.contextPath}/resources/images/header/logo.png"/>
+
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-image: url("/resources/images/bg/2.jpg");
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #b7fff0;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover, .offcanvas a:focus {
+            color: #ff20c6;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+
+        .header {
+            border-width: 0;
+        !important;
+            background: rgb(167, 207, 223);
+            background: -moz-linear-gradient(top, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+            background: -webkit-linear-gradient(top, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+            background: linear-gradient(to bottom, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a7cfdf', endColorstr='#23538a', GradientType=0);
+        }
+
+
+    </style>
+
+</h:head>
+
+<h:body styleClass="osa_background_leather" style="margin: 0;">
+
+    <h:form id="toolbarForm">
+
+        <h:panelGrid columns="2" style="width: 100%; height: 50px;" columnClasses="header, header, header">
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()"> &#9776; ${sessionScope.get('user')}</span>
+            <h:panelGrid columns="2" id="timeAndAbout" columnClasses="header, header">
+                <p:clock/>
+                <p:graphicImage name="/images/header/Info.png" width="42" height="42"
+                                onclick="document.getElementById('id01').style.display='block'"/>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#215;</a>
+            <a href="#"/>
+            <a href="#"> </a>
+            <a href="#"> </a>
+            <a href="#"> </a>
+
+            <p:menuButton value="Options" id="buttonMenu" menuStyleClass="toolbar-button-color"
+                          styleClass="toolbar-button-color" style="margin-left: 30px;">
+                <p:menuitem value="Pricing and Greeks" url="/financial/basic/PricingAndGreeks.xhtml"/>
+                <p:separator/>
+                <p:menuitem value="Implied Volatility" url="/financial/basic/ImpliedVolatility.xhtml"/>
+                <p:separator/>
+                <p:menuitem value="Personalized Graph" url="/financial/basic/PersonalizedGraph.xhtml"/>
+                <p:separator/>
+                <p:menuitem value="Standard Graphs" url="/financial/basic/StandardGraphs.xhtml"/>
+                <p:separator/>
+
+                <p:menuitem value="Binomial Tree" url="/financial/others/BinomialTree.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+                <p:menuitem value="Portfolio" url="/financial/others/Portfolio.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+                <p:menuitem value="Strategy" url="/financial/others/Strategy.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+                <p:menuitem value="Hedging" url="/financial/others/Hedging.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+                <p:menuitem value="Theory" url="/financial/others/Theory.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+                <p:menuitem value="Exercise" url="/financial/others/Exercise.xhtml"
+                            process="osatoolbar" ajax="true"/>
+                <p:separator/>
+
+            </p:menuButton>
+            <a href="#"> </a>
+            <a href="${pageContext.request.contextPath}/financial/admin/Registration.xhtml">Registration</a>
+            <a href="#"> </a>
+            <a href="${pageContext.request.contextPath}/financial/professor/AdminTools.xhtml">Admin Tools</a>
+            <a href="#"> </a>
+            <a href="${pageContext.request.contextPath}/financial/professor/Trading.xhtml">Trading</a>
+            <a href="#"> </a>
+            <a href="${pageContext.request.contextPath}/financial/student/MyAccount.xhtml">My Account</a>
+            <a href="#"> </a>
+            <a href="${pageContext.request.contextPath}/logout">Logout</a>
+        </div>
+
+
+        <div id="main">
+            <p:outputPanel id="toolbar">
+                <p:growl id="message" sticky="true" autoUpdate="false" showDetail="true"/>
+            </p:outputPanel>
+            <p:panel id="header"
+                     style="width: 100%;padding: 0;background: rgba(90, 69, 158, 0.3) none repeat scroll 0 0;">
+                <h:panelGrid columns="5">
+                    <p:graphicImage name="/images/header/logo.png"
+                                    style="padding: 0; margin-left: 10%;" width="80" height="111"/>
+                    <p:spacer width="5"/>
+                    <p:graphicImage name="/images/header/dhillon.png"
+                                    style="padding: 0; margin-left: 10%;" width="414" height="111"/>
+                    <p:spacer width="40"/>
+                    <h:outputText value="#{tabPageName.pageName}" style="font-size: 3em; color: #0f0f0f;"/>
+                    <!--<p:graphicImage name="/images/header/uni2.png" style="padding: 0;"/>-->
+                </h:panelGrid>
+            </p:panel>
+
+            <div class="ui-fluid">
+                <ui:insert name="content"/>
+            </div>
+
+            <div class="ui-grid-col-12">
+                <p:panel id="footer" style="width: 100%; padding: 0; background:
+                     rgba(129, 139, 158, 0.9) none repeat scroll 0 0; bottom: 0;
+                     text-align: center; font-size: 1.2em;">
+                    (c)2017 - University of Lethbridge
+                </p:panel>
+
+            </div>
+            <!--<p:sticky target="osatoolbar"/>-->
+        </div>
+    </h:form>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4">
+            <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-display-topright">Close</span>
+                <h2>About FIAT SIMULATION SOFTWARE:</h2>
+            </header>
+            <div class="w3-container">
+                <h4>
+                    This project was envisioned by a group from the <strong>University of Lethbridge</strong>,
+                    Faculty of Management, to enhance the experience of students,
+                    professors, and the community by providing the fundamental and technical tools
+                    to help market participants make appropriate decisions.
+                </h4>
+                <h4>
+                    The key members of this team include:<br/>
+                    <strong>Dr. Shamsul Alam, Lynda Thai-Baird, Clayton Varjassy, and Joshua Lindemann.</strong>
+                </h4>
+                <h4>The whole development of this application was done by our senior software developer<br/>
+                    <strong>Sina Golestanirad.</strong>
+                </h4>
+            </div>
+            <footer class="w3-container w3-teal">
+                <p>University of Lethbridge</p>
+            </footer>
+        </div>
+    </div>
+
+</h:body>
+
+</html>

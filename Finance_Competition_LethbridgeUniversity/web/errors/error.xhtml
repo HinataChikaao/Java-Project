@@ -1,0 +1,23 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div class="ui-fluid" style="text-align: center; font-size: 2em;">
+            <p:graphicImage id="errImg" value="#{request.contextPath}/resources/images/png/warning.png" width="150" height="150" style="text-align: center;"/>
+            <div style="text-align: left; margin-left: 60px;">
+                <p:outputLabel id="err1" value="An error is occurred, may be due to :" style="font-size: 1em; font-style: oblique; font-weight: bold;"/><br/>
+                <p:outputLabel id="err2" value="- Invalid username or password to login." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err3" value="- Permission restriction, according to your registration." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err4" value="- Invalid input data." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err5" value="- Invalid address." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err6" value="- The time session is over." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err7" value="- And so on ..." style="font-size: 1em;"/><br/>
+                <p:outputLabel id="err8" value="If this page, appears several times again, contact, to the site administrator." style="font-size: 1em; font-style: oblique; font-weight: bold;"/><br/><br/>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

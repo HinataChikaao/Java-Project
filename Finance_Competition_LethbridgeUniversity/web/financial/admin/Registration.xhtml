@@ -1,0 +1,350 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+
+        <p:tabView id="mainTabView" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <p:ajax event="tabChange" listener="#{userRegistrationCtrl.OnTabChange}"
+                    update=":toolbarForm:mainTabView"/>
+
+            <p:tab id="addUser" title="Add User">
+
+                <h:panelGrid id="addUserPanel" columns="2">
+                    <p:outputLabel id="lblName" for="txtName" value="Name:" style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtName"
+                            value="#{userRegistrationCtrl.name}"
+                            required="true"
+                            requiredMessage="Enter first name ..."
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Name')}"/>
+
+                    <p:outputLabel id="lblFamily" for="txtFamily" value="Family:" style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtFamily"
+                            value="#{userRegistrationCtrl.family}"
+                            required="true"
+                            requiredMessage="Enter last name ..."
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Family')}"/>
+
+                    <p:outputLabel id="lblUsername" for="txtUserID" value="Username:" style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtUserID"
+                            value="#{userRegistrationCtrl.userID}"
+                            required="true"
+                            requiredMessage="Enter username ..."
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Username')}"/>
+
+                    <p:outputLabel id="lblPaswword" for="txtPassword" value="Password:" style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtPassword"
+                            value="#{userRegistrationCtrl.password}"
+                            required="true"
+                            requiredMessage="Enter password..."
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Password')}"/>
+
+                    <p:outputLabel id="lblConfirmPassword" for="txtConfirmPassword" value="Confirm: "
+                                   style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtConfirmPassword"
+                            value="#{userRegistrationCtrl.confirm}"
+                            required="true"
+                            requiredMessage="Enter password confirmation..."
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Confirm')}"/>
+
+                    <p:outputLabel id="lblRole" for="cmbRole" value="Authorization: " style="color: #0f0f0f;"/>
+                    <p:selectOneMenu id="cmbRole" value="#{userRegistrationCtrl.roleName}"
+                                     required="true" requiredMessage="Select the authorization..."
+                                     disabled="#{userRegistrationCtrl.addUser.getStatus('Authorization')}">
+                        <f:selectItem itemLabel="Admin" itemValue="admin"/>
+                        <f:selectItem itemLabel="Professor" itemValue="professor"/>
+                        <f:selectItem itemLabel="Student" itemValue="student"/>
+                        <p:ajax event="change" update="cmbRole, numInvestment" process="@this"
+                                listener="#{userRegistrationCtrl.investmentStatus}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel id="lblInvestment" for="numInvestment" value="Initial Investment:"
+                                   style="color: #0f0f0f;"/>
+                    <p:inputNumber id="numInvestment"
+                                   value="#{userRegistrationCtrl.studentInitialCash}"
+                                   required="true"
+                                   requiredMessage="Enter Initial Investment ..."
+                                   decimalPlaces="2"
+                                   thousandSeparator=","
+                                   decimalSeparator="."
+                                   symbol="$"
+                                   disabled="#{userRegistrationCtrl.addUser.getStatus('Investment')}">
+                        <p:ajax update="numInvestment"/>
+                    </p:inputNumber>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnSave"
+                            value="Save"
+                            actionListener="#{userRegistrationCtrl.register}"
+                            update="@this"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.addUser.getStatus('Save')}"
+                            style="width: 220px;"/>
+                </h:panelGrid>
+
+            </p:tab>
+
+            <p:tab id="editUser" title="Change Password">
+
+                <h:panelGrid id="changePasswordPanel" columns="2">
+
+                    <p:outputLabel id="lblCurUsername" for="txtUserName" value="Username:" style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtUserName"
+                            value="#{userRegistrationCtrl.userID}"
+                            required="true"
+                            requiredMessage="Enter username ..."
+                            disabled="#{userRegistrationCtrl.changePassword.getStatus('UserName')}"/>
+
+                    <p:outputLabel id="lblcurPassword" for="txtcurPassword" value="Current Password:"
+                                   style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtcurPassword"
+                            value="#{userRegistrationCtrl.password}"
+                            required="true"
+                            requiredMessage="Enter current password ..."
+                            disabled="#{userRegistrationCtrl.changePassword.getStatus('CurrentPassword')}"/>
+
+                    <p:outputLabel id="lblNewPassword" for="txtNewPassword" value="New Password:"
+                                   style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtNewPassword"
+                            value="#{userRegistrationCtrl.newPassword}"
+                            required="true"
+                            requiredMessage="Enter new password ..."
+                            disabled="#{userRegistrationCtrl.changePassword.getStatus('NewPassword')}"/>
+
+                    <p:outputLabel id="lblConfirm" for="txtConfirm" value="Confirm:" style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtConfirm"
+                            value="#{userRegistrationCtrl.confirm}"
+                            required="true"
+                            requiredMessage="Enter password confirmation ..."
+                            disabled="#{userRegistrationCtrl.changePassword.getStatus('Confirm')}"/>
+
+                    <p:spacer height="63"/>
+                    <p:spacer height="63"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnChangePassword"
+                            value="Change Password"
+                            actionListener="#{userRegistrationCtrl.change}"
+                            update="@this"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.changePassword.getStatus('ChangePassword')}"
+                            style="width: 220px;"/>
+                </h:panelGrid>
+
+            </p:tab>
+
+            <p:tab id="deleteUser" title="Delete Admin or Professor">
+
+                <h:panelGrid id="deleteUserPanel" columns="2">
+
+                    <p:outputLabel id="lblUame" for="txtUname" value="Username:" style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtUname"
+                            value="#{userRegistrationCtrl.userID}"
+                            required="true"
+                            requiredMessage="Enter username..."
+                            disabled="#{userRegistrationCtrl.deleteUser.getStatus('Username')}"/>
+
+                    <p:outputLabel id="lblPas" for="txtPass" value="Password:" style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtPass"
+                            value="#{userRegistrationCtrl.password}"
+                            required="true"
+                            requiredMessage="Enter password..."
+                            disabled="#{userRegistrationCtrl.deleteUser.getStatus('Password')}"/>
+
+                    <p:spacer height="95"/>
+                    <p:spacer height="95"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnDelete"
+                            value="Delete User"
+                            actionListener="#{userRegistrationCtrl.delete}"
+                            update="@this"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.deleteUser.getStatus('DeleteUser')}"
+                            style="width: 220px;"/>
+
+                </h:panelGrid>
+
+            </p:tab>
+
+            <p:tab id="resetOrDeleteSelectedUsers" title="Reset or Delete Selected Students">
+
+                <h:panelGrid id="resetUserPanelSTD" columns="2">
+
+
+                    <p:outputLabel id="lblAdimnNameSTD" for="txtAdminNameSTD" value="Admin Username:"
+                                   style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtAdminNameSTD"
+                            value="#{userRegistrationCtrl.adminUsername}"
+                            disabled="#{userRegistrationCtrl.resetAllSelectedAccount.getStatus('AdminUsernameSTD')}"/>
+
+                    <p:outputLabel id="lblAdminPassSTD" for="txtAdminPassSTD" value="Admin Password:"
+                                   style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtAdminPassSTD"
+                            value="#{userRegistrationCtrl.adminPassword}"
+                            disabled="#{userRegistrationCtrl.resetAllSelectedAccount.getStatus('AdminPasswordSTD')}"/>
+
+
+                    <p:spacer height="10"/>
+                    <p:spacer height="10"/>
+
+                    <p:outputLabel id="lblStudents" for="txtStudentSelection" value="Students:"
+                                   style="color: #0f0f0f;"/>
+                    <p:selectCheckboxMenu id="txtStudentSelection"
+                                          value="#{userRegistrationCtrl.studentList}"
+                                          label="Students"
+                                          multiple="false"
+                                          filter="true"
+                                          filterMatchMode="startsWith"
+                                          panelStyle="width:250px">
+                        <f:selectItems value="#{userRegistrationCtrl.selectedStudents}"/>
+                    </p:selectCheckboxMenu>
+
+                    <p:spacer height="95"/>
+                    <p:spacer height="95"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnAllDeleteSTD"
+                            value="Remove Seleted Users"
+                            actionListener="#{userRegistrationCtrl.deleteAllSelectedUsers}"
+                            update="@this, txtStudentSelection"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.resetAllSelectedAccount.getStatus('DeleteAllAccountSTD')}"
+                            style="width: 220px;"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnRResetSTD"
+                            value="Reset Selected Users"
+                            actionListener="#{userRegistrationCtrl.resetALLSelectedUsers}"
+                            update="@this, txtStudentSelection"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.resetAllSelectedAccount.getStatus('ResetAllAccountSTD')}"
+                            style="width: 220px;"/>
+
+                </h:panelGrid>
+
+            </p:tab>
+
+            <p:tab id="resetOrDeleteUsers" title="Reset or Delete All Students">
+
+                <h:panelGrid id="resetUserPanel" columns="2">
+
+                    <p:outputLabel id="lblAdimnName" for="txtAdminName" value="Admin Username:"
+                                   style="color: #0f0f0f;"/>
+                    <p:inputText
+                            id="txtAdminName"
+                            value="#{userRegistrationCtrl.adminUsername}"
+                            disabled="#{userRegistrationCtrl.resetAllAccount.getStatus('AdminUsername')}"/>
+
+                    <p:outputLabel id="lblAdminPass" for="txtAdminPass" value="Admin Password:"
+                                   style="color: #0f0f0f;"/>
+                    <p:password
+                            id="txtAdminPass"
+                            value="#{userRegistrationCtrl.adminPassword}"
+                            disabled="#{userRegistrationCtrl.resetAllAccount.getStatus('AdminPassword')}"/>
+
+                    <p:spacer height="95"/>
+                    <p:spacer height="95"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnAllDelete"
+                            value="Remove All Students"
+                            actionListener="#{userRegistrationCtrl.deleteAllUsers}"
+                            update="@this"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.resetAllAccount.getStatus('DeleteAllAccount')}"
+                            style="width: 220px;"/>
+
+                    <p:column/>
+                    <p:commandButton
+                            id="btnRReset"
+                            value="Reset All Students"
+                            actionListener="#{userRegistrationCtrl.resetAllUsers}"
+                            update="@this"
+                            process="@form"
+                            disabled="#{userRegistrationCtrl.resetAllAccount.getStatus('ResetAllAccount')}"
+                            style="width: 220px;"/>
+
+                </h:panelGrid>
+
+            </p:tab>
+
+        </p:tabView>
+
+        <p:dialog id="wrDialog" closable="true" draggable="true" resizable="false"
+                  closeOnEscape="true" header="Warning to reset infromation" responsive="true"
+                  widgetVar="warnRestDialog" width="30%" height="30%">
+            <div>
+                This user is online. Are you sure, to reset corresponding trading activity?
+            </div>
+            <p:spacer height="60"/>
+            <p:commandButton
+                    id="btnrConfirm"
+                    value="Confrim"
+                    actionListener="#{userRegistrationCtrl.resetUser}"
+                    onclick="PF('warnRestDialog').hide();"
+                    update="@this"
+                    process="@form"
+                    style="width: 100px;"/>
+            <p:commandButton
+                    id="btnrCancel"
+                    value="Cancel"
+                    update="@this"
+                    process="@form"
+                    onclick="PF('warnRestDialog').hide();"
+                    style="width: 100px;"/>
+            <p:spacer height="30"/>
+        </p:dialog>
+
+        <p:dialog id="wdDialog" closable="true" draggable="true" resizable="false"
+                  closeOnEscape="true" header="Warning to delete user" responsive="true"
+                  widgetVar="warnDeleteDialog" width="30%" height="30%">
+            <div>
+                This user is online. Are you sure, to delete corresponding account?
+            </div>
+            <p:spacer height="60"/>
+            <p:commandButton
+                    id="btndConfirm"
+                    value="Confrim"
+                    actionListener="#{userRegistrationCtrl.deleteUser}"
+                    onclick="PF('warnDeleteDialog').hide();"
+                    update="@this"
+                    process="@form"
+                    style="width: 100px;"/>
+            <p:commandButton
+                    id="btndCancel"
+                    value="Cancel"
+                    update="@this"
+                    process="@form"
+                    onclick="PF('warnDeleteDialog').hide();"
+                    style="width: 100px;"/>
+            <p:spacer height="30"/>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

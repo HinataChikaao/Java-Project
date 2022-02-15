@@ -1,0 +1,178 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="mainPanel" columns="4">
+                <p:spacer width="30" height="10"/>
+
+                <p:panel id="inputPanel" header="Input" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+                    <h:form id="inpForm">
+                        <h:panelGrid id="parameters" columns="2">
+
+                            <p:spacer height="40"/>
+                            <p:spacer height="40"/>
+
+
+                            <p:outputLabel id="ep" value="STOCK PRICE ($)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="eprice"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for STOCK PRICE "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="ur" value="STRIKE PRICE ($)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="uprice"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for STRIKE PRICE "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="tte" value="TIME TO MATURITY (days)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="exparation"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for TIME TO MATURITY "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="rfr" value="RISK FREE RATE (%)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="rate"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for RISK FREE RATE "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="vol" value="VOLATILITY (%)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="volatility"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for VOLATILITY "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="calc" value="Calculate" style="color: #0f0f0f;"/>
+                            <p:commandButton
+                                    id="btnParam"
+                                    mask=""
+                                    value="Calculate"
+                                    required="true"
+                                    requiredMessage=""
+                                    disabled="false"/>
+
+                        </h:panelGrid>
+                    </h:form>
+                    <br/>
+                    <br/>
+
+                </p:panel>
+
+
+                <p:column>
+                    <p:spacer width="100" height="10"/>
+                </p:column>
+
+                <p:panel id="outputPanel" header="Output" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+                    <h:form id="outForm">
+                        <h:panelGrid id="output" columns="2">
+
+                            <p:spacer height="20"/>
+                            <p:spacer height="20"/>
+
+                            <p:outputLabel id="putPrice" value="OPTION PRICE ($)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="pricePerCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for OPTION PRICE to display "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="delta" value="UPTICK (u)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="deltaCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="UPTICK "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="gama" value="DOWNTICK (d)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="gamaCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for DOWNTICK to display "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="theta" value="PROB. OF MOVE UP (%)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="thetaCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value fo PROB. OF MOVE UP to dislay "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="vega" value="PROB. OF MOVE DOWN (%)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="vegaCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value for PROB. OF MOVE DOWN to display "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="rho" value="OPTION PRICE (Binomial Tree)" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="rhoCall"
+                                    readonly="true"
+                                    mask=""
+                                    value="0"
+                                    required="true"
+                                    requiredMessage="There is no value OPTION PRICE to display "
+                                    disabled="false"/>
+
+                            <p:outputLabel id="display" value="Display" style="color: #0f0f0f;"/>
+                            <p:commandButton
+                                    id="btnDisplay"
+                                    readonly="true"
+                                    mask=""
+                                    value="Display"
+                                    required="true"
+                                    requiredMessage=""
+                                    disabled="false"/>
+                            <br/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+            </h:panelGrid>
+
+            <br/>
+        </p:panel>
+    </ui:define>
+</ui:composition>

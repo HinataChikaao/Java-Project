@@ -1,0 +1,195 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <p:panel id="ticketGraphTable" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(193, 173, 226, 0.4) none repeat scroll 0 0;">
+
+            <br/>
+            <p:fileUpload fileUploadListener="#{ticketGraphCtrl.readExcelFile}" mode="advanced"
+                          dragDropSupport="true" update="filemessages" sizeLimit="1048576"
+                          allowTypes="/(\.|\/)(xls|xlsx)$/"
+                          style="height: 20%;background-image: url(/resources/images/bg/bg5.jpg);"
+                          disabled="#{ticketGraphCtrl.buttonsStatus.get(0)}"/>
+            <p:growl id="filemessages" showDetail="true" sticky="true"/>
+
+
+            <h:panelGrid id="mainPanel" columns="2">
+
+                <h:panelGrid id="spinners" columns="4">
+
+                    <p:outputLabel id="lbldate" value="Date"/>
+                    <p:calendar id="dtDate" value="#{ticketGraphCtrl.date}" effect="fold"
+                                disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lbltime" for="spntime" value="Time (second):"/>
+                    <p:spinner id="spntime" value="#{ticketGraphCtrl.time}" stepFactor="1"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblstartPoint" for="spnStartPoint" value="Start Point:"/>
+                    <p:spinner id="spnStartPoint" value="#{ticketGraphCtrl.startPoint}" stepFactor="0.25"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblEndPoint" for="spnEndPoint" value="End Point:"/>
+                    <p:spinner id="spnEndPoint" value="#{ticketGraphCtrl.endPoint}" stepFactor="0.25"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblMinPoint" for="spnMintPoint" value="Minimum:"/>
+                    <p:spinner id="spnMintPoint" value="#{ticketGraphCtrl.minPoint}" stepFactor="0.25"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblMaxPoint" for="spnMaxPoint" value="Maximum:"/>
+                    <p:spinner id="spnMaxPoint" value="#{ticketGraphCtrl.maxPoint}" stepFactor="0.25"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblDivisionPoint" for="spnDivisionPoint" value="Devision:"/>
+                    <p:spinner id="spnDivisionPoint" value="#{ticketGraphCtrl.division}" stepFactor="1"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                    <p:outputLabel id="lblTolerance" for="spnTolerance" value="Tolenace:"/>
+                    <p:spinner id="spnTolerance" value="#{ticketGraphCtrl.tolerance}" stepFactor="1"
+                               disabled="#{ticketGraphCtrl.buttonsStatus.get(1)}"/>
+
+                </h:panelGrid>
+
+                <h:panelGrid id="buttons" columns="2">
+                    <p:commandButton
+                            id="createGraph"
+                            disabled="#{ticketGraphCtrl.buttonsStatus.get(2)}"
+                            actionListener="#{ticketGraphCtrl.createGraph}"
+                            value="Create Graph"
+                            update="message, lineChart"
+                            process="lineChart"
+                            style="width: 100%;  "/>
+
+                    <p:commandButton
+                            id="startGraph"
+                            disabled="#{ticketGraphCtrl.buttonsStatus.get(3)}"
+                            value="Start Graph"
+                            update="message, lineChart, interval, showPoint"
+                            process="interval, showPoint"
+                            onclick="PF('excelPoint').stop();PF('poll').start();createPoints();"
+                            style="width: 100%;">
+                    </p:commandButton>
+
+                    <p:commandButton
+                            id="stopGraph"
+                            actionListener="#{ticketGraphCtrl.stopGraph}"
+                            disabled="#{ticketGraphCtrl.buttonsStatus.get(4)}"
+                            value="Stop Graph"
+                            update="message, lineChart, interval, showPoint"
+                            process="interval, showPoint"
+                            style="width: 100% ;"/>
+
+                    <p:commandButton
+                            id="restartGraph"
+                            disabled="#{ticketGraphCtrl.buttonsStatus.get(5)}"
+                            value="Clear Graph"
+                            actionListener="#{ticketGraphCtrl.reinitialize}"
+                            update="message, lineChart, interval, showPoint"
+                            process="interval, showPoint"
+                            onclick="PF('excelSheet').stop();PF('poll').start();
+                                         window.location.replace(window.location.href);"
+                            style="width: 100%"/>
+
+                    <p:commandButton
+                            id="download"
+                            disabled="#{ticketGraphCtrl.buttonsStatus.get(6)}"
+                            value="Download"
+                            ajax="false"
+                            onclick="PF('excelPoint').stop();PrimeFaces.monitorDownload(start, stop);"
+                            icon="ui-icon-arrowthick-1-s"
+                            update="filemessages"
+                            style="width: 100%">
+                        <p:fileDownload value="#{ticketGraphCtrl.streamedContent}"/>
+                    </p:commandButton>
+
+                    <p:remoteCommand name="createPoints" actionListener="#{ticketGraphCtrl.createPoints}"/>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+            <br/>
+        </p:panel>
+
+        <p:panel id="GraphPanel" header="Ticket Graph Chart"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <p:poll id="showPoint" update="lineChart, message"
+                    listener="#{ticketGraphCtrl.createExcelLineModels}"
+                    autoStart="false" widgetVar="excelPoint"/>
+
+            <p:poll id="interval" update="lineChart, message" listener="#{ticketGraphCtrl.createLineModels}"
+                    autoStart="false" widgetVar="poll"/>
+
+            <p:chart id="lineChart" type="line" model="#{ticketGraphCtrl.lineModel}"
+                     style="width: 100%; height:96%; padding: 0;" responsive="true"
+                     widgetVar="chart"/>
+
+        </p:panel>
+
+        <p:dialog id="selectDialog" header="Sheet Selection" widgetVar="select" showEffect="explode"
+                  hideEffect="explode" width="600" height="370" resizable="false" modal="true"
+                  position="center" responsive="true" onShow="setSize();">
+            <h:outputText value="Select one or several sheets, to display corresponding graphs: "
+                          style="font-size: large; color: #C6E746"/>
+            <h:panelGrid id="selectpanel" columns="3" cellpadding="5">
+                <h:outputLabel for="sheetMenu" value="Sheets List:" style="color: #bbffe3"/>
+                <p:selectCheckboxMenu id="sheetMenu" value="#{ticketGraphCtrl.selectedSheets}"
+                                      label="Sheet Selection"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:250px"
+                                      widgetVar="sheetLists">
+                    <f:selectItems id="itemsValue" value="#{ticketGraphCtrl.allSheets}"/>
+                </p:selectCheckboxMenu>
+                <p:commandButton id="confirmSheets" value="Confirm" update="display,sheetMenu"/>
+            </h:panelGrid>
+            <h:panelGrid id="selectionList" columns="2" cellpadding="5">
+                <p:scrollPanel id="display" style="width:480px;height:220px">
+                    <p:dataList value="#{ticketGraphCtrl.selectedSheets}" var="sheet"
+                                emptyMessage="No sheet selected">
+                        #{sheet}
+                    </p:dataList>
+                </p:scrollPanel>
+                <p:commandButton id="createGraphs" value="Create Graphs"
+                                 actionListener="#{ticketGraphCtrl.resetSheetIndex}"
+                                 onclick="PF('select').hide(); PF('excelPoint').start();"
+                                 style="padding: 0; height: 225px;font-size: small;"/>
+            </h:panelGrid>
+        </p:dialog>
+
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+
+            function showSheetSelectionDialog() {
+                PF('select').show();
+            }
+
+            function hideSheetSelectionDialog() {
+                PF('select').hide();
+            }
+
+            function setSize() {
+                $(".ui-dialog").css({
+                    "width": 600,
+                    "height": 370,
+                    "left": "50%",
+                    "top": "50%",
+                    "margin-left": -300,
+                    "margin-top": -200
+                });
+            }
+        </script>
+    </ui:define>
+</ui:composition>

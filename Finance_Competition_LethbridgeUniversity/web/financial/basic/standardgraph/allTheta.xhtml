@@ -1,0 +1,276 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="mainPanel" columns="4">
+                <p:spacer width="70" height="10"/>
+                <h:panelGrid id="parameters" columns="2">
+
+                    <p:outputLabel id="ep" value="EXERCISE PRICE ($)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="eprice"
+                            mask=""
+                            value="#{standardGraphsCtrl.exercisePrice}"
+                            required="true"
+                            requiredMessage="Exercise Price not be null."
+                            disabled="false"/>
+
+                    <p:outputLabel id="ur" value="UNDERLYING PRICE ($)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="uprice"
+                            mask=""
+                            value="#{standardGraphsCtrl.underlyingPrice}"
+                            required="true"
+                            requiredMessage="Underlying Price not be null."
+                            disabled="false"/>
+
+                    <p:outputLabel id="tte" value="TIME TO EXPIRATION (days)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="exparation"
+                            mask=""
+                            value="#{standardGraphsCtrl.timeToExpiration}"
+                            required="true"
+                            requiredMessage="time to Expireation not be null."
+                            disabled="false"/>
+
+                    <p:outputLabel id="rfr" value="RISK FREE RATE (% year)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="rate"
+                            mask=""
+                            value="#{standardGraphsCtrl.riskFreeRate}"
+                            required="true"
+                            requiredMessage="Risk Free Rate not be null."
+                            disabled="false"/>
+
+                    <p:outputLabel id="vol" value="VOLATILITY (% year)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="volatility"
+                            mask=""
+                            value="#{standardGraphsCtrl.volatility}"
+                            required="true"
+                            requiredMessage="Volatility not be null."
+                            disabled="false"/>
+
+                    <p:outputLabel id="calc" value="Calculate" style="color: #0f0f0f;"/>
+                    <p:commandButton
+                            id="btnCalculate"
+                            onclick="showGraph()"
+                            mask=""
+                            value="Calculate"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"
+                            actionListener="#{standardGraphsCtrl.calculate}"
+                            update="output"
+                            style="width: 100%;"/>
+                </h:panelGrid>
+
+                <p:column>
+                    <p:spacer width="200" height="10"/>
+                </p:column>
+
+                <h:panelGrid id="output" columns="3">
+                    <p:outputLabel id="des" value="Description" style="color: #0f0f0f;"/>
+                    <p:outputLabel id="call" value="Call Option" style="color: #0f0f0f;"/>
+                    <p:outputLabel id="put" value="Put Option" style="color: #0f0f0f;"/>
+
+                    <p:outputLabel id="putPrice" value="PRICE (PER $)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="pricePerCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionPrice}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="pricePerPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionPrice}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                    <p:outputLabel id="delta" value="DELTA (PER $)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="deltaCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionDelta}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="deltaPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionDelta}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                    <p:outputLabel id="gama" value="GAMMA (PER %)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="gamaCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionGamma}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="gamaPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionGamma}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                    <p:outputLabel id="theta" value="THETA (PER DAY)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="thetaCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionTheta}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="thetaPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionTheta}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                    <p:outputLabel id="vega" value="VEGA (PER %)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="vegaCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionVega}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="vegaPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionVega}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                    <p:outputLabel id="rho" value="RHO (PER %)" style="color: #0f0f0f;"/>
+                    <p:inputMask
+                            id="rhoCall"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.callOptionRHO}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+                    <p:inputMask
+                            id="rhoPut"
+                            readonly="true"
+                            mask=""
+                            value="#{standardGraphsCtrl.putOptionRHO}"
+                            required="true"
+                            requiredMessage=""
+                            disabled="false"/>
+
+                </h:panelGrid>
+            </h:panelGrid>
+            <br/>
+        </p:panel>
+
+
+        <p:panel id="graph" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="graphParam" columns="2">
+
+                <p:outputLabel id="lblVerticalAxis" value="VERTICAL AXIS" style="color: #0f0f0f;"/>
+                <p:selectOneMenu id="cmbVerticalAxis" value="#{standardGraphsCtrl.graphCategory}"
+                                 style="width:125px">
+                    <f:selectItem itemLabel="All" itemValue="All"/>
+                    <f:selectItem itemLabel="Option Price" itemValue="Option_Price"/>
+                    <f:selectItem itemLabel="Delta" itemValue="Delta"/>
+                    <f:selectItem itemLabel="Gamma" itemValue="Gamma"/>
+                    <f:selectItem itemLabel="Vega" itemValue="Vega"/>
+                    <f:selectItem itemLabel="Theta" itemValue="Theta"/>
+                    <f:selectItem itemLabel="RHO" itemValue="RHO"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel id="lblHorizontalAxis" value="HORIZONTAL AXIS" style="color: #0f0f0f;"/>
+                <p:selectOneMenu id="cmbHorizontalAxis" value="" style="width:125px">
+                    <f:selectItem itemLabel="Underlying Price" itemValue="Uderlying_Price"/>
+                    <f:selectItem itemLabel="Strick Price" itemValue="Strick_Price"/>
+                    <f:selectItem itemLabel="Risck Free Rate" itemValue="Risck_Free_Rate"/>
+                    <f:selectItem itemLabel="Time To Expiration" itemValue="Time_To_Expiration"/>
+                    <f:selectItem itemLabel="Volatility" itemValue="Volatility"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel id="lblHAxis" value="HORIZONTAL AXIS" style="color: #0f0f0f;"/>
+                <p:selectOneMenu id="cmbHAxis" value="#{standardGraphsCtrl.graphType}" style="width:125px">
+                    <f:selectItem itemLabel="All" itemValue="All"/>
+                    <f:selectItem itemLabel="Put" itemValue="Put"/>
+                    <f:selectItem itemLabel="Call" itemValue="Call"/>
+                </p:selectOneMenu>
+
+                <p:column>
+                    <div class="placeholder"></div>
+                </p:column>
+
+                <p:commandButton
+                        id="btnShowGraph"
+                        mask=""
+                        value="Show Graph"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"
+                        actionListener="#{standardGraphsCtrl.drawChart}"
+                        update="output"
+                        style="width: 100%;"/>
+            </h:panelGrid>
+        </p:panel>
+
+
+        <p:panel id="displayGraph" header="Black Scholes Graph"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="allGraph" columns="4">
+                <p:chart type="line" model="#{standardGraphsCtrl.thetaCallOptionLineModel}"
+                         style="width:300px;height:300px;"/>
+                <p:chart type="line" model="#{standardGraphsCtrl.thetaPutCallLineModel}"
+                         style="width:300px;height:300px;"/>
+                <p:chart type="line" model="#{standardGraphsCtrl.r_ThetaCallOptionLineModel}"
+                         style="width:300px;height:300px;"/>
+                <p:chart type="line" model="#{standardGraphsCtrl.r_ThetaPutCallLineModel}"
+                         style="width:300px;height:300px;"/>
+            </h:panelGrid>
+
+        </p:panel>
+
+        <script>
+            function showGraph() {
+                window.scrollTo(0, 0);
+                window.scrollBy(0, 670);
+            }
+        </script>
+    </ui:define>
+</ui:composition>

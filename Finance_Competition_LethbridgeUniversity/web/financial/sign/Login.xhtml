@@ -1,0 +1,33 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <p:commandButton
+                    id="btnShowDialog"
+                    mask=""
+                    value="Show Dialog"
+                    onclick="PF('sheetSelection').show();"
+                    style="width: 130px; height: 40px;"/>
+        </p:panel>
+
+        <!-- Dialog -->
+        <p:dialog header="Sheet Selection" widgetVar="sheetSelection"
+                  showEffect="explode" hideEffect="explode" height="370" width="600" resizable="false">
+            <h:outputText value="Select one or several sheets,
+                             to display corresponding graphs: "/>
+        </p:dialog>
+        <!-- Dialog -->
+
+    </ui:define>
+</ui:composition>
+
+

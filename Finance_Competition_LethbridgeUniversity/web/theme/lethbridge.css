@@ -1,0 +1,11 @@
+/*body {
+    background: #defdff url("/resources/images/bg/wp1.jpg") no-repeat fixed center;
+    !*background: -moz-linear-gradient( whitesmoke, #0077b3, cornflowerblue);*!
+}*/
+
+.homePage {
+    background: #ac9fff url("/resources/images/bg/main_bg.jpg") no-repeat fixed center;
+    padding:0px;
+    margin:50px;
+}
+

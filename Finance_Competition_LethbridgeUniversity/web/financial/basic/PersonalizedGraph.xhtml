@@ -1,0 +1,206 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+    <p:panel id="table" header="Parameters"
+             style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+        <h:panelGrid id="mainPanel" columns="4">
+            <p:spacer width="70" height="10"/>
+            <h:panelGrid id="parameters" columns="2">
+
+                <p:outputLabel id="ep" value="EXERCISE PRICE ($)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="eprice"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage="There is no value for EXERCISE PRICE "
+                        disabled="false"/>
+
+                <p:outputLabel id="ur" value="UNDERLYING PRICE ($)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="uprice"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage="There is no value for UNDERLYING PRICE "
+                        disabled="false"/>
+
+                <p:outputLabel id="tte" value="TIME TO EXPIRATION (days)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="exparation"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage="There is no value for TIME TO EXPIRATION "
+                        disabled="false"/>
+
+                <p:outputLabel id="rfr" value="RISK FREE RATE (% year)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="rate"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage="There is no value for RISK FREE RATE "
+                        disabled="false"/>
+
+                <p:outputLabel id="vol" value="VOLATILITY (% year)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="volatility"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage="There is no value for VOLATILITY "
+                        disabled="false"/>
+
+                <p:outputLabel id="calc" value="Calculate" style="color: #0f0f0f;"/>
+                <p:commandButton
+                        id="btnParam"
+                        mask=""
+                        value="Calculate"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+            </h:panelGrid>
+
+            <p:column>
+                <p:spacer width="200" height="10"/>
+            </p:column>
+
+            <h:panelGrid id="output" columns="3">
+                <p:outputLabel id="des" value="Description" style="color: #0f0f0f;"/>
+                <p:outputLabel id="call" value="Call Option" style="color: #0f0f0f;"/>
+                <p:outputLabel id="put" value="Put Option" style="color: #0f0f0f;"/>
+
+                <p:outputLabel id="putPrice" value="PRICE (PER $)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="pricePerCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="pricePerPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+                <p:outputLabel id="delta" value="DELTA (PER $)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="deltaCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="deltaPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+                <p:outputLabel id="gama" value="GAMMA (PER %)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="gamaCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="gamaPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+                <p:outputLabel id="theta" value="THETA (PER DAY)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="thetaCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="thetaPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+                <p:outputLabel id="vega" value="VEGA (PER %)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="vegaCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="vegaPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+                <p:outputLabel id="rho" value="RHO (PER %)" style="color: #0f0f0f;"/>
+                <p:inputMask
+                        id="rhoCall"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+                <p:inputMask
+                        id="rhoPut"
+                        readonly="true"
+                        mask=""
+                        value="0"
+                        required="true"
+                        requiredMessage=""
+                        disabled="false"/>
+
+            </h:panelGrid>
+        </h:panelGrid>
+        <br/>
+    </p:panel>
+
+    <p:panel id="table2" header="Parameters"
+             style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+        <h:panelGrid id="second" columns="2">
+            <p:spacer width="70" height="10"/>
+
+        </h:panelGrid>
+        <br/>
+    </p:panel>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="lethbridge" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+       <jta-data-source>java:/lethbridge</jta-data-source>
+        <class>lethbridge.model.entities.UserEntity</class>
+        <class>lethbridge.model.entities.RoleEntity</class>
+        <class>lethbridge.model.entities.TradingEntity</class>
+        <class>lethbridge.model.entities.AccountValueEntity</class>
+        <class>lethbridge.model.entities.LogBookEntity</class>
+        <class>lethbridge.model.entities.AnalyzeEntity</class>
+        <class>lethbridge.model.entities.ReportEntity</class>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <validation-mode>CALLBACK</validation-mode>
+        <properties>
+            <property name="hibernate.archive.auto" value="class"/>
+            <property name="hibernate.generate_statistics" value="false"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+            <property name="hbm2ddl.auto" value="update"/>
+           </properties>
+    </persistence-unit>
+</persistence>

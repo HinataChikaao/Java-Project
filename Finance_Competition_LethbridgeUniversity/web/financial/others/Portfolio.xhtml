@@ -1,0 +1,262 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+
+            <p:fieldset id="inputDataOne" legend="Input" toggleable="true" toggleSpeed="500" style="background:
+                rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+                <p:ajax event="toggle" update="inputDataOne"/>
+                <h:panelGrid id="mainPanelforParameters" columns="2" cellpadding="5">
+
+                    <p:outputPanel>
+                        <img src="${pageContext.request.contextPath}/resources/images/png/pfin.png"/>
+                    </p:outputPanel>
+
+                    <h:panelGrid id="parameters" columns="2" cellpadding="5">
+                        <p:outputLabel id="lblUR" value="UNDERLYING PRICE ($)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtUR"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage="There is no value for UNDERLYING PRICE "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblTTE" value="TIME TO EXPIRATION (days)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtTTE"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage="There is no value for TIME TO EXPIRATION "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblRFR" value="RISK FREE RATE (% year)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtRFR"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage="There is no value for RISK FREE RATE "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblVol" value="VOLATILITY (% year)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtVol"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage="There is no value for VOLATILITY "
+                                disabled="false"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:fieldset>
+
+
+            <p:fieldset id="outputParameter" legend="Output" toggleable="true" toggleSpeed="500" style="background:
+                rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+                <p:ajax event="toggle" update="outputParameter"/>
+                <h:panelGrid id="mainPanelforOutputParameters" columns="2" cellpadding="5">
+
+                    <p:outputPanel>
+                        <img src="${pageContext.request.contextPath}/resources/images/png/pfout.png"/>
+                    </p:outputPanel>
+
+                    <h:panelGrid id="outParameters" columns="6" cellpadding="5">
+
+                        <p:outputLabel id="lblTOT" value="TYPE OF TRANSACTION" style="color: #0f0f0f;"/>
+                        <p:selectOneMenu id="txtTOT1" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtTOT2" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtTOT3" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtTOT4" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtTOT6" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel id="lblPosition" value="POSITION" style="color: #0f0f0f;"/>
+                        <p:selectOneMenu id="txtPosition1" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtPosition2" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtPosition3" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtPosition4" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="txtPosition5" value="0" style="width:125px">
+                            <f:selectItem itemLabel="None" itemValue="None"/>
+                            <f:selectItem itemLabel="Call" itemValue="Call"/>
+                            <f:selectItem itemLabel="Put" itemValue="Put"/>
+                            <f:selectItem itemLabel="Stock" itemValue="Stock"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel id="lblVolum" value="VOLUME" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtVolume1"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage=""
+                                disabled="false"
+                                style="width: 100%"/>
+                        <p:inputMask
+                                id="txtVolume2"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage=""
+                                disabled="false"
+                                style="width: 100%"/>
+                        <p:inputMask
+                                id="txtVolume3"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage=""
+                                disabled="false"
+                                style="width: 100%"/>
+                        <p:inputMask
+                                id="txtVolume4"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage=""
+                                disabled="false"
+                                style="width: 100%"/>
+                        <p:inputMask
+                                id="txtVolume5"
+                                mask=""
+                                value="0"
+                                required="false"
+                                requiredMessage=""
+                                disabled="false"
+                                style="width: 100%"/>
+
+                        <p:outputLabel id="lblER" value="EXERCISE PRICE" style="color: #0f0f0f;"/>
+                        <p:row>
+                            <p:outputLabel value="$" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="txtER1"
+                                    mask=""
+                                    value="0"
+                                    required="false"
+                                    requiredMessage=""
+                                    disabled="false"
+                                    style="width: 93%"/>
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="$" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="txtER2"
+                                    mask=""
+                                    value="0"
+                                    required="false"
+                                    requiredMessage=""
+                                    disabled="false"
+                                    style="width: 93%"/>
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="$" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="txtER3"
+                                    mask=""
+                                    value="0"
+                                    required="false"
+                                    requiredMessage=""
+                                    disabled="false"
+                                    style="width: 93%"/>
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="$" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="txtER4"
+                                    mask=""
+                                    value="0"
+                                    required="false"
+                                    requiredMessage=""
+                                    disabled="false"
+                                    style="width: 93%"/>
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="$" style="color: #0f0f0f;"/>
+                            <p:inputMask
+                                    id="txtER5"
+                                    mask=""
+                                    value="0"
+                                    required="false"
+                                    requiredMessage=""
+                                    disabled="false"
+                                    style="width: 93%"/>
+                        </p:row>
+
+                        <br/>
+                        <p:commandButton id="calc"
+                                         value="Calculate"
+                                         update="@this"
+                                         process="@this"
+                                         style="width: 100%;"/>
+
+                        <p:commandButton id="clear"
+                                         value="Clear"
+                                         update="@this"
+                                         process="@this"
+                                         style="width: 100%;"/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:fieldset>
+            <br/>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

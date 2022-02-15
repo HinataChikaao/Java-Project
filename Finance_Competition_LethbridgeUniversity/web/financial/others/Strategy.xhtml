@@ -1,0 +1,97 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <p:panel id="table" header="Parameters"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <h:panelGrid id="parameters" columns="2">
+
+                <p:outputPanel>
+                    <p:row>
+                        <img src="${pageContext.request.contextPath}/resources/images/png/str.png"/>
+                        <p style="color: #0f0f0f;">
+                            <strong>Long position in a stock</strong><br/>
+                            <strong>Short position in a call</strong><br/>
+                            The long stock position covers or protects the investor
+                            from the payoff on the short call that becomes necessary if
+                            the stock price rises sharply.
+                        </p>
+                    </p:row>
+                </p:outputPanel>
+
+                <p:panel header="Price And Greeks"
+                         style="width: 96%; margin: 15px 30px 15px 30px; padding: 0;
+                             background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+
+                    <h:panelGrid id="pak" columns="2">
+
+                        <p:outputLabel id="lblTTE" value="TIME TO EXPIRATION (days)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtTTE"
+                                mask=""
+                                value="0"
+                                required="true"
+                                requiredMessage="There is no value for TIME TO EXPIRATION "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblRFR" value="RISK FREE RATE (% year)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtRFR"
+                                mask=""
+                                value="0"
+                                required="true"
+                                requiredMessage="There is no value for RISK FREE RATE "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblVol" value="VOLATILITY (% years)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtVol"
+                                mask=""
+                                value="0"
+                                required="true"
+                                requiredMessage="There is no value for VOLATILITY "
+                                disabled="false"/>
+
+                        <p:outputLabel id="lblER" value="EXERCISE PRICE ($)" style="color: #0f0f0f;"/>
+                        <p:inputMask
+                                id="txtER"
+                                mask=""
+                                value="0"
+                                required="true"
+                                requiredMessage="There is no value for EXERCISE PRICE "
+                                disabled="false"/>
+
+                        <p:outputLabel id="calc" value="Calculate" style="color: #0f0f0f;"/>
+                        <p:commandButton
+                                id="btnCalc"
+                                mask=""
+                                value="Calculate"
+                                required="true"
+                                requiredMessage=""
+                                process="@this"
+                                update="@this"
+                                disabled="false"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:column>
+                    <div class="placeholder"></div>
+                </p:column>
+
+                <p:column>
+                    <div class="placeholder"></div>
+                </p:column>
+            </h:panelGrid>
+            <br/>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

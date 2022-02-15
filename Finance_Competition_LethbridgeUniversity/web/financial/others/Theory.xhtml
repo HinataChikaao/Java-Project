@@ -1,0 +1,236 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <p:panel id="table" header="Theories"
+                 style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+            <p:tabView orientation="left" style="width: 96%; margin: 15px 30px 15px 30px;
+                     padding: 0;background: rgba(76, 101, 158, 0.4) none repeat scroll 0 0;">
+
+                <p:tab title="Introduction to Options">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            <strong>DEFINITION</strong>
+                            <br/><br/>
+                            Option- A financial derivative that represents a contract sold by one party to another
+                            party. The contract offers the buyer the right, but not the obligation, to buy (call)
+                            or sell (put) a security or other financial assets (underlying) at an agreed-upon price
+                            (strike price) during a certain time period (time to expiration) or on a specific date
+                            (expiration date).
+                            <br/><br/>
+                            A call option gives the option holder the right to buy the underlying asset by a
+                            certain specified date for a specified price.
+                            <br/><br/>
+                            A put option gives the option holder the right to sell the underlying asset by a
+                            selected date for a pre-selected price.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Black And Scholes">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <img src="${pageContext.request.contextPath}/resources/images/pages/bs.png"/>
+
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            Black and Scholes In 1973, Fischer Black and Myron Scholes published their groundbreaking
+                            paper the pricing of options and corporate liabilities. Not only did this specify the
+                            first successful options pricing formula, but it also described a general framework
+                            for pricing other derivative instruments. That paper launched the field of financial
+                            engineering.
+                            <br/><br/>
+                            The Black-Scholes (1973) option pricing formula prices European put or call options on
+                            a stock that does not pay a dividend or make other distributions. The formula assumes
+                            the underlying stock price follows a geometric Brownian motion with constant volatility.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Greeks">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            We should first understand the factors which influence the change in the price of an
+                            option. Then we can better understand how this fits in with the Option Greeks.
+                            <br/><br/>
+                            The 5 Option Greeks measure the sensitivity of the price of stock options in relation
+                            to 4 different factors; Changes in the underlying stock price, interest rate,
+                            volatility and time decay.
+                            <br/><br/>
+                            Option Greeks allow option traders to objectively calculate changes in the value of
+                            the option contracts in their portfolio with changes in the factors that affects the
+                            value of stock options. The ability to mathematically calculate these changes gives
+                            option traders the ability to hedge their portfolio or to construct positions with
+                            specific risk/reward profiles.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+
+                <p:tab title="Binomial Tree">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            <strong>BINOMIAL TREE</strong>
+                            <br/><br/>
+                            The binomial lethbridge.model breaks down the time to expiration into potentially a very
+                            large number of time intervals, or steps. A tree of stock prices is initially
+                            produced working forward from the present to expiration. At each step it is assumed
+                            that the stock price will move up or down by an amount calculated using volatility and
+                            time to expiration. This produces a binomial distribution, or recombining tree, of
+                            underlying stock prices. The tree represents all the possible paths that the stock
+                            price could take during the life of the option.
+                            <br/><br/>
+                            At the end of the tree, which is at expiration of the option, all the terminal option
+                            prices for each of the final possible stock prices are known as they simply equal
+                            their intrinsic values.
+                            <br/><br/>
+                            Next the option prices at each step of the tree are calculated working back from
+                            expiration to the present. The option prices at each step are used to derive the
+                            option prices at the next step of the tree using risk neutral valuation based on the
+                            probabilities of the stock prices moving up or down, the risk free rate and the time
+                            interval of each step. Any adjustments to stock prices at an ex-dividend date or
+                            option prices as a result of early exercise of american options are worked into the
+                            calculations at the required point in time. At the top of the tree you are left with
+                            one option price.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+
+                <p:tab title="Strategies With Options">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p>
+                            <strong>STRATEGIES USING OPTIONS</strong>
+
+                            <p:accordionPanel>
+                                <p:tab title="Common Strategies">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p>
+                                            <strong>Protective Put</strong>
+                                            <br/><br/>
+                                            <strong>Covered Call</strong>
+                                            <br/><br/>
+                                        </p>
+                                    </h:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="Spreads (taking positions in two or more the same type of options)">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p>
+                                            <strong>Bull Spread</strong>
+                                            <br/><br/>
+                                            <strong>Bear Spread</strong>
+                                            <br/><br/>
+                                            <strong> Butterfly Spread</strong>
+                                            <br/><br/>
+                                            <strong>Calendar Spread</strong>
+                                            <br/><br/>
+                                            <strong>Box Spread</strong>
+                                            <br/><br/>
+                                            <strong>Diagonal Spread</strong>
+                                            <br/><br/>
+                                        </p>
+                                    </h:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="Combinations (taking positions in both call and put option over the same underlying )">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p>
+                                            <strong>Straddle</strong>
+                                            <br/><br/>
+                                            <strong>Strangle</strong>
+                                            <br/><br/>
+                                            <strong>Strip</strong>
+                                            <br/><br/>
+                                            <strong>Strap</strong>
+                                            <br/><br/>
+                                        </p>
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:accordionPanel>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Hedging Strategies">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            <strong>HEDGING STRATEGIES</strong>
+                            <br/><br/>
+                            In the option market, market maker buy and sell options to investing public,
+                            they earn bid-ask spread by options writings. Market maker also don't want to
+                            assume risk, thus they will have to hege their portfolios. How?
+                            <br/><br/>
+                            - Delta Hedging<br/>
+                            - Gamma Hedging<br/>
+                            - Vega Hedging<br/>
+                            - Delta-Gamma Hedging<br/>
+                            - Delta-Vega Hedging<br/>
+                            - Delta- Gamma-Vega Hedging<br/>
+                            <br/><br/>
+                            A simple recall of option price sensitivities is neccessary:
+                            <br/><br/>
+                            Delta = Delta of an option is the rate of change of the option price with respect to
+                            the price of the underlying asset
+                            <br/><br/>
+                            Gamma = Gamma is a mathematical measurement of how fast the price of an option
+                            contract changes for each unit of change in the price of the underlying asset.
+                            The larger the gamma, the more volatile the option contract is.
+                            <br/><br/>
+                            Vega = Vega is how much an optionâ€™s price changes per a one percent change in
+                            volatility of the underlying asset
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Help">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p style="color: #0f0f0f; font-size: 1.8em;">
+                            <strong>Help</strong>
+                            <br/><br/>
+                            Within the help section, users can find the reference for the parameters shown in OSA system.
+                            <br/><br/>
+                            <strong>Exercise Price =</strong> (Strike Price) The fixed price defined by the option contract at
+                            which the option may be exercised. The owner of the option can either purchase
+                            (call option) or sell (put option) the underlying instrument at this fixed price.
+                            <br/><br/>
+                            <strong>Underlying Price =</strong> The market price of the underlying asset. A change in the
+                            underlying price leads to a simultaneous change in the price of the option.
+                            <br/><br/>
+                            <strong>Time to Expiration =</strong> The time prior to the expiration date of the option contract.
+                            After the expiration date, the contract is either not valuable or cannot be exercised.
+                            In OSA system, we use "day" as the unit of Time to Expiration with a year of 365-day basis.
+                            <br/><br/>
+                            <strong>Risk Free Rate =</strong> Rate of return from a risk free investment.
+                            <br/><br/>
+                            <strong>Volatility = (Historical Volatility)</strong> Measures the volatility of the
+                            underlying instrument. The volatility is an input to the option valuation lethbridge.model and is
+                            based on actual, recent price changes of the underlying.
+                            <br/><br/>
+                            <strong>Implied Volatility =</strong> The implied volatility of an option contract is
+                            the volatility of the price of the underlying asset that is implied by the market price
+                            of the option based on an option pricing lethbridge.model. It is calculated using the market price
+                            of an option, along with the parameters used for option valuation lethbridge.model, in effect by
+                            working backwards to solve the price equation.
+                            <br/><br/>
+                            <strong>Market Price =</strong> The market price of the option contract,
+                            with which we calculate the implied volatility. It is normally provided by instructor
+                            or from market curNews.
+                            <br/><br/>
+                        </p>
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

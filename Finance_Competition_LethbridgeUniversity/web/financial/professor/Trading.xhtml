@@ -1,0 +1,220 @@
+<ui:composition template="/master/pattern.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core">
+
+    <ui:define name="content">
+        <p:panelGrid id="operation" columns="2" layout="grid">
+            <p:panelGrid id="infoAndNews" columns="1" layout="grid">
+                <p:outputLabel id="buttons">
+                    <h:panelGrid columns="5">
+
+                        <p:commandButton
+                                id="btnStart"
+                                disabled="#{tradingCtrl.statusContainer.getStatus('StartButton')}"
+                                value="Start"
+                                ajax="true"
+                                actionListener="#{tradingCtrl.runTimer}"
+                                update="buttons"
+                                process="@this"
+                                style="width: 100%; height: 100%; padding: 0;"/>
+
+                        <p:commandButton
+                                id="btnPause"
+                                disabled="#{tradingCtrl.statusContainer.getStatus('PauseButton')}"
+                                value="Pause"
+                                actionListener="#{tradingCtrl.stopGraph}"
+                                update="buttons"
+                                process="@this"
+                                style="width: 100%; height: 100%; padding: 0;"/>
+
+                        <p:commandButton
+                                id="btnClear"
+                                disabled="#{tradingCtrl.statusContainer.getStatus('ClearButton')}"
+                                value="Clear"
+                                actionListener="#{tradingCtrl.clearGraphs}"
+                                update="buttons, dg"
+                                process="@this, dg"
+                                style="width: 100%; height: 100%; padding: 0;"/>
+
+                        <p:commandButton
+                                id="btnDownload2003_1"
+                                ajax="false"
+                                onclick="PrimeFaces.monitorDownload(start,stop); PF('pauseDialog').show(); "
+                                oncomplete="PF('pauseDialog').hide();"
+                                value="Financial Report"
+                                disabled="false"
+                                actionListener="#{tradingCtrl.downloadData2003}"
+                                process="@this"
+                                update="buttons"
+                                style="width: 100%; height: 100%; padding: 0;">
+                            <p:fileDownload value="#{tradingCtrl.reportExcelFile}"/>
+                        </p:commandButton>
+
+                        <p:commandButton
+                                id="btnDownload2003_2"
+                                ajax="false"
+                                onclick="PrimeFaces.monitorDownload(start,stop); PF('pauseDialog').show(); "
+                                oncomplete="PF('pauseDialog').hide();"
+                                value="Trading Sumary"
+                                disabled="false"
+                                actionListener="#{tradingCtrl.downloadData2003}"
+                                process="@this"
+                                update="buttons"
+                                style="width: 100%; height: 100%; padding: 0;">
+                            <p:fileDownload value="#{tradingCtrl.reportExcelFile}"/>
+                        </p:commandButton>
+
+                        <p:commandButton id="btnTime"
+                                         disabled="#{tradingCtrl.statusContainer.getStatus('TimeInterval')}"
+                                         value="Time Interval"
+                                         onclick="PF('tDialog').show();"/>
+
+                        <p:selectOneMenu id="cmbGraphSelection" value="#{tradingCtrl.graphName}"
+                                         disabled="#{tradingCtrl.statusContainer.getStatus('GraphSelection')}">
+                            <f:selectItem itemLabel="Select a Graph" itemValue="NoGraph"/>
+                            <f:selectItems value="#{tradingCtrl.models}" var="graph"
+                                           itemLabel="#{graph.title}"
+                                           itemValue="#{graph.title}"/>
+                            <p:ajax event="change" update="tblNews, buttons, message, dg"
+                                    listener="#{tradingCtrl.selectGraph}" process="@this"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <p:fileUpload fileUploadListener="#{tradingCtrl.handleFileUpload}"
+                                  mode="advanced"
+                                  disabled="#{tradingCtrl.statusContainer.getStatus('FileUploadButton')}"
+                                  fileLimit="1"
+                                  update="message, buttons"
+                                  auto="false"
+                                  sizeLimit="100000"
+                                  allowTypes="/(\.|\/)(xls|xlsx)$/"
+                                  style="width: 100%; height: 100%; padding: 0;"/>
+
+                        <!-- <p:growl id="messages" showDetail="true" sticky="true" />-->
+
+                </p:outputLabel>
+
+                <!--@elvariable id="curNews" type="lethbridge.model.entities.CurNews"-->
+                <p:dataTable id="tblNews"
+                             var="curNews"
+                             scrollable="true"
+                             scrollHeight="350"
+                             value="#{tradingCtrl.filteredNews}"
+                             selectionMode="single"
+                             selection="#{tradingCtrl.curNews}"
+                             rowKey="#{curNews.tick}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink}
+                                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                             paginator="true" rows="10" style="margin-bottom:20px;">
+
+                    <p:ajax event="rowSelect" listener="#{tradingCtrl.onRowSelect}"
+                            update="toolbarForm:textArea"/>
+                    <p:ajax event="rowUnselect" listener="#{tradingCtrl.onRowUnselected}"
+                            update="tblNews, toolbarForm:textArea"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Tick"/>
+                        </f:facet>
+                        <h:outputText value="#{curNews.tick}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ticker"/>
+                        </f:facet>
+                        <h:outputText value="#{curNews.ticker}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Head Line"/>
+                        </f:facet>
+                        <h:outputText value="#{curNews.headLine}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panelGrid>
+
+            <p:outputPanel id="dg" autoUpdate="false" layout="grid" style="">
+
+                <c:forEach begin="1" end="#{tradingCtrl.numChart}" step="1" var="chr">
+                    <p:outputPanel id="dynamicPanel_${chr}">
+                        <c:if test="#{tradingCtrl.models.get(chr - 1).title.equals(tradingCtrl.graphName)}">
+                            <p:chart id="dynamicChart_${chr}" type="line"
+                                     model="#{tradingCtrl.models.get(chr - 1)}"
+                                     style="width:100%;height:480px; margin-top: 50px; float: right;
+                                                 background-color: #ececec;"/>
+                        </c:if>
+                    </p:outputPanel>
+                    <!-- <p:draggable id="drag_${chr}" for="dynamicPanel_${chr}"/>-->
+                </c:forEach>
+            </p:outputPanel>
+
+        </p:panelGrid>
+
+        <p:dialog id="nDialog" closable="true" draggable="true" closeOnEscape="true" header="News" responsive="true"
+                  widgetVar="newsDialog" width="30%" height="30%">
+
+            <p:inputTextarea id="textArea" rows="10" cols="50" value="#{tradingCtrl.areaText}"
+                             queryDelay="750" minQueryLength="4" readonly="true"
+                             style="width: 100%; height: 100%;">
+            </p:inputTextarea>
+
+        </p:dialog>
+
+        <p:dialog id="timeDialog" closable="true" draggable="true" closeOnEscape="true" header="Time Interval"
+                  responsive="true" widgetVar="tDialog" width="50%" height="60%;" style="box-sizing: content-box;">
+
+            <h:panelGrid id="timeSelection" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-4"
+                         layout="grid" style="width: 100%; height: 100%; line-height: 20px;">
+
+                <p:outputLabel id="lblSecond" for="cmbSeconds" value="Interval In Second:"/>
+                <p:selectOneMenu id="cmbSeconds" value="#{tradingCtrl.second}">
+                    <f:selectItem itemLabel="Interval (S)" itemValue=""/>
+                    <f:selectItems value="#{tradingCtrl.seconds}" var="scnd" itemValue="#{scnd}"/>
+                    <p:ajax event="change" update="cmbSeconds, buttons, message, btnConfirm"
+                            process="@this"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel id="lblDays" for="scmDays" value="Interval In Days:"/>
+                <p:selectCheckboxMenu id="scmDays" value="#{tradingCtrl.selectedDays}" label="Days"
+                                      valueChangeListener="#{tradingCtrl.daySelectedListener}"
+                                      filter="true" filterMatchMode="startsWith">
+                    <f:selectItems value="#{tradingCtrl.daysOfWeek}"/>
+                </p:selectCheckboxMenu>
+
+                <p:commandButton id="btnCancel"
+                                 value="Cancel"
+                                 process="@this"
+                                 update="scmDays,cmbSeconds"
+                                 actionListener="#{tradingCtrl.cancelTimeSetting}"
+                                 onclick="PF('tDialog').hide();"/>
+
+                <p:commandButton id="btnConfirm"
+                                 value="Confirm"
+                                 process="@this"
+                                 disabled="#{tradingCtrl.second eq 0 and tradingCtrl.daySelected}"
+                                 update="scmDays,cmbSeconds"
+                                 onclick="PF('tDialog').hide();"/>
+
+            </h:panelGrid>
+        </p:dialog>
+
+        <p:poll id="showPoint" interval="1" autoStart="true" listener="#{tradingCtrl.update}"
+                widgetVar="showPointTime"/>
+
+        <p:dialog widgetVar="pauseDialog" closable="false" modal="true" resizable="false"
+                  showHeader="false">
+            <p:graphicImage value="/resources/images/gif/spinner-blue.gif"/>
+
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
