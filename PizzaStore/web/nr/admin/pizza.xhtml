@@ -1,0 +1,74 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+        <h:form id="pizza">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+            <p:panel id="pnlPizza" header="Pizza" footer="Pizza Shop" style="margin-bottom:20px">
+                <h:panelGrid id="pgPizza" columns="2" cellpadding="10">
+
+                    <p:outputLabel id="lblPic" for="picFile" value="Pizza Image:"/>
+                    <p:fileUpload id="picFile" fileUploadListener="#{pizzaCtrl.handleFileUpload}"
+                                  mode="advanced" dragDropSupport="false" required="true"
+                                  update="growl, txtImg" sizeLimit="100000" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                  skinSimple="true"/>
+
+
+                    <p:outputLabel id="lblimg" for="txtImg" value="Image Name:"/>
+                    <p:inputText id="txtImg" value="#{pizzaCtrl.picFileName}" required="true" readonly="true"/>
+
+                    <p:outputLabel id="lblPizza" for="cmbpm" value="Pizza Name:"/>
+                    <p:selectOneMenu id="cmbpm" value="#{pizzaCtrl.pizzaModelCode}">
+                        <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                        <f:selectItems value="#{pizzaCtrl.pizzaModelEntityList}" var="pm"
+                                       itemLabel="#{pm.pizzaModelName}" itemValue="#{pm.pizzaModelCode}"/>
+                        <p:ajax update="cmbps, growl" process="@this" listener="#{pizzaCtrl.loadPizzaModelByCode}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel id="lblpdesc" for="txtpdesc" value="Pizza Description:"/>
+                    <p:inputText id="txtpdesc" value="#{pizzaCtrl.pizzaDesc}" required="true"/>
+
+                    <p:outputLabel id="lblps" for="cmbps" value="Pizza Size:"/>
+                    <p:selectOneMenu id="cmbps" value="#{pizzaCtrl.pizzaSizeId}">
+                        <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                        <f:selectItems value="#{pizzaCtrl.pizzaSizeEntityList}" var="ps"
+                                       itemLabel="#{ps.pizzaSizeName}" itemValue="#{ps.pizzaSizeId}"/>
+                        <p:ajax update="cmbps, growl" process="@this"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel id="lblpp" for="txtpp" value="Pizza Price:"/>
+                    <p:row>
+                        <p:inputNumber id="txtpp" value="#{pizzaCtrl.pizzaPrice}" required="true">
+                            <p:ajax update="txtpp"/>
+                        </p:inputNumber>
+                        <p:spacer width="10"/>
+                        <p:outputLabel id="sek" for="txtpp" value="SEK"/>
+                    </p:row>
+
+                    <p:commandButton
+                            value="Save"
+                            id="btnSave"
+                            update="pgPizza, growl"
+                            process="@form"
+                            action="#{pizzaCtrl.save}"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+
+
+    </ui:define>
+
+
+</ui:composition>

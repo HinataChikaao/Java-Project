@@ -1,0 +1,182 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+
+        <h:form id="order">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+            <p:panel id="pnlOrder" header="Order" footer="Order" style="margin-bottom:20px">
+
+
+                <p:fieldset legend="Pizza Order" toggleable="true" toggleSpeed="500">
+                    <p:ajax event="toggle" listener="#{orderCtrl.handleToggle}" update="growl" />
+
+                    <h:panelGrid id="pizzaOrder" columns="2" cellpadding="5">
+                        <p:galleria value="#{orderCtrl.pizzaCatalog.pizzaEntityList}" var="pizza" panelWidth="500" panelHeight="313" showCaption="true">
+                            <p:graphicImage value="#{orderCtrl.pizzaDynamicImage}"
+                                            width="500" height="313" alt="#{pizza.pizzaDesc}" title="#{pizza.pizzaName}">
+                                <f:param name="pizzaId" value="#{pizza.pizzaId}" />
+                            </p:graphicImage>
+                        </p:galleria>
+
+                        <p:panel header="New Pizza Order" style="margin-bottom:20px">
+                            <h:panelGrid id="pgPizzaOrder" columns="2" cellpadding="5">
+
+                                <h:outputLabel value="Pizza: " for="cmbPizza"/>
+                                <p:selectOneMenu id="cmbPizza" value="#{orderCtrl.pizzaCode}">
+                                    <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                                    <f:selectItems value="#{orderCtrl.pizzaCatalog.pizzaDistinctList}" var="pl"
+                                                   itemLabel="#{pl.pizzaName}" itemValue="#{pl.pizzaCode}"/>
+                                    <p:ajax update="cmbPizza, cmbPsize, growl" process="@this" listener="#{orderCtrl.pizzaSizeExistence}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Pizza Size: " for="cmbPsize"/>
+                                <p:selectOneMenu id="cmbPsize" value="#{orderCtrl.pizzaSizeId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                                    <f:selectItems value="#{orderCtrl.pizzaSizeCollect}" var="psc"
+                                                   itemLabel="#{psc.pizzaSizeName}" itemValue="#{psc.pizzaSizeId}"/>
+                                    <p:ajax update="cmbPsize, growl" process="@this" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Number : *" for="pNo"/>
+                                <p:spinner id="pNo" value="#{orderCtrl.pizzaNumber}" prefix="No: " min="1"  />
+
+                                <p:commandButton id="btn_reset" value="Reset" update="pgPizzaOrder, growl, orders" actionListener="#{orderCtrl.resetPizzaOrder}" />
+                                <p:commandButton id="btn_add" value="Add" update="pgPizzaOrder, growl, @parent, orders"  actionListener="#{orderCtrl.initPizzaOrder}"/> >
+
+                            </h:panelGrid>
+
+
+                            <p:outputPanel id="orders">
+                                <p:dataTable value="#{orderCtrl.pizzaOrderList}" var="order" id="orderTable"
+                                             scrollable="true" scrollHeight="130" scrollRows="1"  >
+
+                                    <p:column headerText="Pizza Name" width="150">
+                                        <f:facet name="header" >
+                                            <h:outputText value="Pizza Name" />
+                                        </f:facet>
+                                        <h:outputText value="#{order.pizzaName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Pizza Size" width="150">
+                                        <f:facet name="header">
+                                            <h:outputText value="Size" />
+                                        </f:facet>
+                                        <h:outputText value="#{order.pizzaSizeName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Number" width="150">
+                                        <f:facet name="header">
+                                            <h:outputText value="Number" />
+                                        </f:facet>
+                                        <h:outputText value="#{order.pizzaNumber}" />
+                                    </p:column>
+
+
+                                    <p:column headerText="Action" width="150">
+                                        <p:commandLink value="Remove" update="orderTable" process="orderTable" >
+                                            <p:collector value="#{order}" removeFrom="#{orderCtrl.pizzaOrderList}" unique="true"/>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:outputPanel>
+
+                        </p:panel>
+
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:spacer height="30"/>
+
+                <p:fieldset legend="Drink Order" toggleable="true" toggleSpeed="500">
+                    <p:ajax event="toggle" listener="#{orderCtrl.handleToggle}" update="growl" />
+                    <h:panelGrid id="drinkOrder" columns="2" cellpadding="5">
+                        <p:galleria value="#{orderCtrl.drinkCatalog.drinkEntityList}" var="drink" panelWidth="500" panelHeight="313" showCaption="true">
+                            <p:graphicImage value="#{orderCtrl.drinkDynamicImage}"
+                                            width="500" height="313" alt="#{drink.drinkDesc}" title="#{drink.drinkName}">
+                                <f:param name="drinkId" value="#{drink.drinkId}" />
+                            </p:graphicImage>
+                        </p:galleria>
+
+
+                        <p:panel header="New Pizza Order" style="margin-bottom:20px">
+                            <h:panelGrid id="pgDrinkOrder" columns="2" cellpadding="5">
+
+                                <h:outputLabel value="Drink: " for="cmbDrink"/>
+                                <p:selectOneMenu id="cmbDrink" value="#{orderCtrl.drinkId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                                    <f:selectItems value="#{orderCtrl.drinkCatalog.drinkEntityList}" var="dl"
+                                                   itemLabel="#{dl.drinkName}" itemValue="#{dl.drinkId}"/>
+                                    <p:ajax update="cmbDrink, growl" process="@this" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Number : *" for="dNo"/>
+                                <p:spinner id="dNo" value="#{orderCtrl.drinkNumber}" prefix="No: " min="1"  />
+
+                                <p:commandButton id="btn_dReset" value="Reset" update="pgDrinkOrder, growl, drinkOrders" actionListener="#{orderCtrl.resetDrinkOrder}" />
+                                <p:commandButton id="btn_dAdd" value="Add" update="pgDrinkOrder, growl, @parent, drinkOrders"  actionListener="#{orderCtrl.initDrinkOrder}" />
+                            </h:panelGrid>
+
+
+                            <p:outputPanel id="drinkOrders">
+                                <p:dataTable value="#{orderCtrl.drinkOrderList}" var="drinkOrder" id="drinkOrderTable"
+                                             scrollable="true" scrollHeight="130" scrollRows="1" >
+
+                                    <p:column headerText="Drink Name" width="150">
+                                        <f:facet name="header" >
+                                            <h:outputText value="Drink Name" />
+                                        </f:facet>
+                                        <h:outputText value="#{drinkOrder.drinkName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Number" width="150">
+                                        <f:facet name="header">
+                                            <h:outputText value="Number" />
+                                        </f:facet>
+                                        <h:outputText value="#{drinkOrder.drinkNumber}" />
+                                    </p:column>
+
+
+                                    <p:column headerText="Action" width="150">
+                                        <p:commandLink value="Remove" update="drinkOrderTable" process="drinkOrderTable">
+                                            <p:collector value="#{drinkOrder}" removeFrom="#{orderCtrl.drinkOrderList}" unique="true"/>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:outputPanel>
+
+                        </p:panel>
+
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <h:panelGrid id="pgOrder" columns="2" cellpadding="10">
+
+                    <p:commandButton
+                            value="Save"
+                            id="btnSave"
+                            update="pizzaOrder, drinkOrder, growl"
+                            process="@form"
+                            action="#{orderCtrl.save}"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+
+
+    </ui:define>
+
+
+</ui:composition>

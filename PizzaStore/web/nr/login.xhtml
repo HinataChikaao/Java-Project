@@ -1,0 +1,40 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="content">
+
+        <h:form id="login">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+            <p:panel id="pnlLogin" header="Login" footer="Pizza Shop" style="margin-bottom:20px">
+                <h:panelGrid id="pgLogin" columns="2" cellpadding="10">
+
+                    <p:outputLabel id="lblUn" for="un" value="Username:"/>
+                    <p:inputText id="un" value="#{signInCtrl.username}" required="true"
+                                 requiredMessage="username is mandatory"/>
+
+                    <p:outputLabel id="lblpass" for="pw" value="Password:"/>
+                    <p:password id="pw" value="#{signInCtrl.password}" inline="true" required="true"
+                                requiredMessage="Password is mandatory"/>
+
+                    <p:commandButton
+                            value="Confirm"
+                            id="btnConfirm"
+                            process="@form"
+                            update="pgLogin, growl"
+                            actionListener="#{signInCtrl.confirm}"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+
+
+</ui:composition>

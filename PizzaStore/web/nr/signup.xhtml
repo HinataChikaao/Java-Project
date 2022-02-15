@@ -1,0 +1,63 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+
+        <h:form id="signUp">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+            <p:panel id="pnlSignUp" header="Sign Up" footer="Pizza Shop" style="margin-bottom:20px">
+                <h:panelGrid id="pgSignUp" columns="2" cellpadding="10">
+
+                    <p:outputLabel id="lblFn" for="fn" value="First Name:"/>
+                    <p:inputText id="fn" value="#{signUpCtrl.firstName}" required="true"/>
+
+                    <p:outputLabel id="lblLn" for="ln" value="Last Name:"/>
+                    <p:inputText id="ln" value="#{signUpCtrl.lastName}" required="true"/>
+
+                    <p:outputLabel id="lblMn" for="mn" value="Mobile Number:"/>
+                    <p:inputText id="mn" value="#{signUpCtrl.mobileNumber}" required="true"
+                                 requiredMessage="mobile number is mandatory"/>
+
+                    <p:outputLabel id="lblPn" for="pn" value="Phone Number:"/>
+                    <p:inputText id="pn" value="#{signUpCtrl.phoneNumber}"/>
+
+                    <p:outputLabel id="lblEm" for="em" value="Email:"/>
+                    <p:inputText id="em" value="#{signUpCtrl.email}"/>
+
+                    <p:outputLabel id="lblAddr" for="addr" value="Address:"/>
+                    <p:inputText id="addr" value="#{signUpCtrl.address}" required="true" style="width: 300%;"/>
+
+                    <p:outputLabel id="lblUn" for="un" value="Username:"/>
+                    <p:inputText id="un" value="#{signUpCtrl.username}" required="true"
+                                 requiredMessage="username is mandatory"/>
+
+                    <p:outputLabel id="lblpass" for="pw" value="Password:"/>
+                    <p:password id="pw" value="#{signUpCtrl.password}" feedback="true" inline="true" required="true"
+                                requiredMessage="Password is mandatory"/>
+
+                    <p:outputLabel id="lblConfrim" for="pw" value="Confirm:"/>
+                    <p:password id="pwConf" value="#{signUpCtrl.passConfirm}" feedback="true" inline="true" required="true"
+                                requiredMessage="Password is mandatory"/>
+
+                    <p:commandButton
+                            value="Save"
+                            id="btnSave"
+                            process="@form"
+                            update="pgSignUp, growl"
+                            actionListener="#{signUpCtrl.saveCustomer}"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

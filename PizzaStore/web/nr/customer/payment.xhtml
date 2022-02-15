@@ -1,0 +1,71 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <h:form id="order">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+
+            <p:panel id="pnlPayment" header="Payment" footer="Paymnet" style="margin-bottom:20px">
+
+                <p:dataTable id="orderDetails" value="#{paymentCtrl.billings}" var="bill"
+                             rows="10"  paginator="true"
+                             paginatorTemplate="{CurrentPageReport}
+                                                {FirstPageLink}
+                                                {PreviousPageLink}
+                                                {PageLinks}
+                                                {NextPageLink}
+                                                {LastPageLink}
+                                                {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="Name">
+                        <h:outputText value="#{bill.productName}" />
+                    </p:column>
+
+                    <p:column headerText="Number">
+                        <h:outputText value="#{bill.number}" />
+                    </p:column>
+
+                    <p:column headerText="Price For One">
+                        <h:outputText value="#{bill.priceForOne}" />
+                    </p:column>
+
+                    <p:column headerText="Total Price">
+                        <h:outputText value="#{bill.totalPrice}" />
+                    </p:column>
+
+                    <f:facet name="paginatorTopLeft">
+                        <p:commandButton type="button" icon="pi pi-refresh" />
+                    </f:facet>
+
+                    <f:facet name="paginatorBottomRight">
+                        <p:commandButton type="button" icon="pi pi-cloud-upload" />
+                    </f:facet>
+
+                </p:dataTable>
+
+            </p:panel>
+
+            <p:spacer height="30"/>
+
+            <p:commandButton
+                    value="Payment"
+                    id="btnPay"
+                    process="@form"
+                    update="pnlPayment, growl"
+                    actionListener="#{paymentCtrl.payment}"/>
+
+        </h:form>
+
+
+    </ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,59 @@
+<ui:composition template="/WEB-INF/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" >
+
+
+    <ui:define name="content">
+
+        <h:form id="drink">
+
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:spacer height="30"/>
+            <p:panel id="pnlDrink" header="Drink" footer="Drink Shop" style="margin-bottom:20px">
+                <h:panelGrid id="pgDrink" columns="2" cellpadding="10">
+
+                    <p:outputLabel id="lblPic" for="picFile" value="Drink Image:"/>
+                    <p:fileUpload id="picFile" fileUploadListener="#{drinkCtrl.handleFileUpload}"
+                                  mode="advanced" dragDropSupport="false" required="true"
+                                  update="growl, txtImg" sizeLimit="100000" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                  skinSimple="true"/>
+
+                    <p:outputLabel id="lblimg" for="txtImg" value="Image Name:"/>
+                    <p:inputText id="txtImg" value="#{drinkCtrl.picFileName}" required="true" readonly="true"/>
+
+                    <p:outputLabel id="lbldn" for="dn" value="Drink Name:"/>
+                    <p:inputText id="dn" value="#{drinkCtrl.drinkName}" required="true"/>
+
+                    <p:outputLabel id="lblddesc" for="txtddesc" value="Drink Description:"/>
+                    <p:inputText id="txtddesc" value="#{drinkCtrl.drinkDesc}" required="true"/>
+
+                    <p:outputLabel id="lbldp" for="txtdp" value="Drink Price:"/>
+                    <p:row>
+                        <p:inputNumber id="txtdp" value="#{drinkCtrl.drinkPrice}" required="true">
+                            <p:ajax update="txtdp"/>
+                        </p:inputNumber>
+                        <p:spacer width="10"/>
+                        <p:outputLabel id="sek" for="txtdp" value="SEK"/>
+                    </p:row>
+
+                    <p:commandButton
+                            value="Save"
+                            id="btnSave"
+                            update="pgDrink, growl"
+                            process="@form"
+                            action="#{drinkCtrl.save}"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+
+
+    </ui:define>
+
+
+</ui:composition>

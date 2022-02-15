@@ -1,0 +1,39 @@
+.hero-image {
+    background-image: url('/resource/image/7.jpg');
+    background-color: #b1cca6;
+    height: 600px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-bg {
+    background-color: #b2cfb2;
+    /*background-image: radial-gradient(circle, #244825, #39692e, #548a32, #76ac33, #9ecf2e);*/
+}
+
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: #0e6c00;
+}
+
+.hero-pic {
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    transform: translate(-50%, 7%);
+    color: #0f9e00;
+}
+
+
+.w3-myFont {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #9ecf2e;
+}
